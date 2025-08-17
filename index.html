@@ -1,0 +1,217 @@
+<!doctype html>
+
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Shop – ফ্রি ই‑কমার্স (GitHub Pages)</title>
+  <meta name="description" content="Mobile‑friendly static e‑commerce template. Build with plain HTML/CSS/JS. Host on GitHub Pages for free.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0f172a;--card:#111827;--muted:#94a3b8;--text:#e2e8f0;--brand:#22c55e;--accent:#38bdf8;--danger:#ef4444}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Noto Sans Bengali",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif;background:linear-gradient(180deg,#0b1220,#0f172a 30%,#0b1220);color:var(--text)}
+    .container{max-width:1100px;margin:0 auto;padding:16px}
+    header{position:sticky;top:0;z-index:10;background:rgba(15,23,42,.85);backdrop-filter:blur(10px);border-bottom:1px solid #1f2937}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .brand .logo{width:36px;height:36px;border-radius:12px;background:radial-gradient(circle at 30% 30%,var(--brand),#16a34a);box-shadow:0 0 0 3px rgba(34,197,94,.2)}
+    .toolbar{display:grid;grid-template-columns:1fr 140px 120px auto;gap:10px}
+    .search{width:100%;background:#0b1220;border:1px solid #1f2937;color:var(--text);padding:10px 12px;border-radius:12px}
+    select,.btn{background:#0b1220;border:1px solid #1f2937;color:var(--text);padding:10px 12px;border-radius:12px}
+    .btn{cursor:pointer;transition:transform .05s ease,opacity .2s}
+    .btn:hover{opacity:.9}
+    .btn.primary{background:linear-gradient(135deg,var(--brand),#16a34a);border:none;color:#062b12}
+    .btn.outline{border:1px solid #334155}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    @media(min-width:768px){.grid{grid-template-columns:repeat(3,1fr)} .toolbar{grid-template-columns:1fr 160px 140px auto}}
+    @media(min-width:1024px){.grid{grid-template-columns:repeat(4,1fr)}}
+    .card{background:linear-gradient(180deg,#0b1220 0%,#0b1220 40%,#0c1628 100%);border:1px solid #1f2937;border-radius:16px;overflow:hidden;box-shadow:0 6px 20px rgba(2,6,23,.35)}
+    .card img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+    .card .content{padding:10px 12px}
+    .price{color:#a7f3d0;font-weight:700}
+    .muted{color:var(--muted);font-size:.9rem}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .tag{font-size:.75rem;padding:3px 8px;border-radius:999px;background:#0b1220;border:1px solid #334155;color:#bae6fd}
+    /* Cart */
+    .cart-toggle{position:fixed;right:16px;bottom:16px;z-index:20}
+    .cart-panel{position:fixed;inset:0 0 0 auto;width:92%;max-width:420px;background:#0b1220;border-left:1px solid #1f2937;transform:translateX(100%);transition:transform .25s ease;z-index:30;display:flex;flex-direction:column}
+    .cart-panel.open{transform:translateX(0)}
+    .cart-header{padding:14px 16px;border-bottom:1px solid #1f2937;display:flex;align-items:center;justify-content:space-between}
+    .cart-items{flex:1;overflow:auto;padding:10px 12px;display:grid;gap:10px}
+    .cart-item{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;border:1px solid #1f2937;border-radius:12px;padding:8px}
+    .qty{display:inline-flex;align-items:center;border:1px solid #334155;border-radius:10px;overflow:hidden}
+    .qty button{background:#0b1220;border:none;color:var(--text);padding:6px 10px}
+    .qty span{min-width:28px;text-align:center}
+    .cart-footer{border-top:1px solid #1f2937;padding:12px;display:grid;gap:10px}
+    .total{display:flex;align-items:center;justify-content:space-between;font-weight:700}
+    .pill{border-radius:999px;padding:10px 14px}
+    .notice{margin:12px 0;padding:10px 12px;border:1px solid #334155;border-radius:12px;color:#fde68a;background:#422006}
+    footer{padding:30px 16px;color:#94a3b8;text-align:center}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container" style="display:flex;align-items:center;gap:12px;justify-content:space-between;padding:10px 0;">
+      <div class="brand"><span class="logo"></span> <span>My Shop</span></div>
+      <div class="toolbar">
+        <input id="search" class="search" placeholder="সার্চ করুন… (যেমন: টি‑শার্ট, কসমেটিকস)" />
+        <select id="category">
+          <option value="all">সব ক্যাটাগরি</option>
+          <option>টি‑শার্ট</option>
+          <option>পোলো</option>
+          <option>কসমেটিকস</option>
+          <option>এ্যাক্সেসরিজ</option>
+        </select>
+        <select id="sort">
+          <option value="recent">নতুন আগে</option>
+          <option value="price-asc">দাম: কম থেকে বেশি</option>
+          <option value="price-desc">দাম: বেশি থেকে কম</option>
+        </select>
+        <button class="btn outline" id="openCart">🛒 কার্ট (<span id="cartCount">0</span>)</button>
+      </div>
+    </div>
+  </header>  <div class="container">
+    <div class="notice">✳️ ডেমো ডাটা দেওয়া আছে। নিজের পণ্যের নাম, দাম, ছবি ও WhatsApp নম্বর কোডে পরিবর্তন করুন।</div>
+    <div id="products" class="grid"></div>
+  </div><button class="btn primary cart-toggle pill" id="floatingCart">🛒 কার্ট • <span id="cartCount2">0</span></button>
+
+  <aside class="cart-panel" id="cartPanel" aria-hidden="true">
+    <div class="cart-header">
+      <strong>আপনার কার্ট</strong>
+      <button class="btn outline" id="closeCart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="row total"><span>সাবটোটাল</span><span id="cartTotal">৳0</span></div>
+      <button class="btn primary" id="checkoutBtn">✅ WhatsApp‑এ অর্ডার করুন</button>
+      <small class="muted">অফলাইনে পেমেন্ট/ক্যাশ অন ডেলিভারি—WhatsApp‑এ কনফার্ম করবেন।</small>
+    </div>
+  </aside>  <footer>
+    © <span id="year"></span> My Shop · Powered by GitHub Pages
+  </footer>  <script>
+  // ======= CONFIG: আপনার দোকানের WhatsApp নম্বর (দেশ কোডসহ, + ছাড়া) =======
+  const WHATSAPP_NUMBER = "8801700000000"; // উদাহরণ: বাংলাদেশ → 8801XXXXXXXXX
+
+  // ======= ডেমো পণ্যের ডাটা (নিজেরটা দিন) =======
+  const productsData = [
+    {id:1, title:"বেসিক টি‑শার্ট", category:"টি‑শার্ট", price:350, img:"https://picsum.photos/seed/t1/600/600", badge:"বেস্ট সেলার", createdAt:Date.now()-1000*60*60*24*1},
+    {id:2, title:"প্রিমিয়াম পোলো", category:"পোলো", price:650, img:"https://picsum.photos/seed/t2/600/600", badge:"নতুন", createdAt:Date.now()-1000*60*60*24*2},
+    {id:3, title:"ফেস ওয়াশ", category:"কসমেটিকস", price:220, img:"https://picsum.photos/seed/c1/600/600", badge:"", createdAt:Date.now()-1000*60*60*24*3},
+    {id:4, title:"ক্যাপ", category:"এ্যাক্সেসরিজ", price:180, img:"https://picsum.photos/seed/a1/600/600", badge:"", createdAt:Date.now()-1000*60*60*24*4},
+    {id:5, title:"গ্রাফিক টি‑শার্ট", category:"টি‑শার্ট", price:490, img:"https://picsum.photos/seed/t3/600/600", badge:"", createdAt:Date.now()-1000*60*60*24*1.5},
+    {id:6, title:"ম্যাট লিপস্টিক", category:"কসমেটিকস", price:299, img:"https://picsum.photos/seed/c2/600/600", badge:"হট", createdAt:Date.now()-1000*60*60*24*2.5}
+  ];
+
+  const els = {
+    grid: document.getElementById('products'),
+    search: document.getElementById('search'),
+    category: document.getElementById('category'),
+    sort: document.getElementById('sort'),
+    cartCount: document.getElementById('cartCount'),
+    cartCount2: document.getElementById('cartCount2'),
+    openCart: document.getElementById('openCart'),
+    floatingCart: document.getElementById('floatingCart'),
+    cartPanel: document.getElementById('cartPanel'),
+    closeCart: document.getElementById('closeCart'),
+    cartItems: document.getElementById('cartItems'),
+    cartTotal: document.getElementById('cartTotal'),
+    checkoutBtn: document.getElementById('checkoutBtn'),
+  };
+
+  let state = { query:'', category:'all', sort:'recent', cart:[] };
+
+  function formatBDT(n){return '৳'+n.toLocaleString('bn-BD')}
+
+  function renderProducts(){
+    let list = productsData.filter(p =>
+      (state.category==='all'||p.category===state.category) &&
+      (state.query==='' || p.title.toLowerCase().includes(state.query))
+    );
+    if(state.sort==='price-asc') list.sort((a,b)=>a.price-b.price);
+    if(state.sort==='price-desc') list.sort((a,b)=>b.price-a.price);
+    if(state.sort==='recent') list.sort((a,b)=>b.createdAt-a.createdAt);
+
+    els.grid.innerHTML = list.map(p=>`
+      <div class="card">
+        <img src="${p.img}" alt="${p.title}">
+        <div class="content">
+          <div class="row"><strong>${p.title}</strong> ${p.badge?`<span class="tag">${p.badge}</span>`:''}</div>
+          <div class="row" style="margin-top:6px;">
+            <span class="price">${formatBDT(p.price)}</span>
+            <button class="btn primary" onclick="addToCart(${p.id})">➕ কার্টে নিন</button>
+          </div>
+          <div class="muted" style="margin-top:6px;">ক্যাটাগরি: ${p.category}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  function addToCart(id){
+    const item = state.cart.find(i=>i.id===id);
+    if(item){ item.qty++; }
+    else{
+      const prod = productsData.find(p=>p.id===id);
+      state.cart.push({id:prod.id,title:prod.title,price:prod.price,qty:1});
+    }
+    syncCart();
+  }
+
+  function changeQty(id,delta){
+    const it = state.cart.find(i=>i.id===id);
+    if(!it) return;
+    it.qty += delta;
+    if(it.qty<=0) state.cart = state.cart.filter(i=>i.id!==id);
+    syncCart();
+  }
+
+  function syncCart(){
+    const count = state.cart.reduce((s,i)=>s+i.qty,0);
+    els.cartCount.textContent = count;
+    els.cartCount2.textContent = count;
+    const total = state.cart.reduce((s,i)=>s+i.qty*i.price,0);
+    els.cartTotal.textContent = formatBDT(total);
+    els.cartItems.innerHTML = state.cart.map(i=>`
+      <div class="cart-item">
+        <img src="https://picsum.photos/seed/${i.id}/200/200" alt="${i.title}">
+        <div>
+          <div style="font-weight:600;">${i.title}</div>
+          <div class="muted">${formatBDT(i.price)} × ${i.qty}</div>
+        </div>
+        <div class="qty">
+          <button onclick="changeQty(${i.id},-1)">−</button>
+          <span>${i.qty}</span>
+          <button onclick="changeQty(${i.id},1)">+</button>
+        </div>
+      </div>`).join('');
+  }
+
+  function toggleCart(open){
+    els.cartPanel.classList[open?'add':'remove']('open');
+    els.cartPanel.setAttribute('aria-hidden', open? 'false':'true');
+  }
+
+  function checkout(){
+    if(state.cart.length===0){ alert('কার্ট খালি!'); return; }
+    const lines = state.cart.map(i=>`• ${i.title} x${i.qty} = ৳${i.price*i.qty}`).join('%0A');
+    const total = state.cart.reduce((s,i)=>s+i.qty*i.price,0);
+    const msg = encodeURIComponent(`অর্ডার দিতে চাই:%0A${decodeURIComponent(lines)}%0Aমোট: ৳${total}%0Aনাম:%0Aঠিকানা:%0Aফোন:`);
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+    window.open(url,'_blank');
+  }
+
+  // events
+  els.search.addEventListener('input', e=>{ state.query = e.target.value.trim().toLowerCase(); renderProducts(); });
+  els.category.addEventListener('change', e=>{ state.category = e.target.value; renderProducts(); });
+  els.sort.addEventListener('change', e=>{ state.sort = e.target.value; renderProducts(); });
+  els.openCart.addEventListener('click', ()=>toggleCart(true));
+  els.floatingCart.addEventListener('click', ()=>toggleCart(true));
+  els.closeCart.addEventListener('click', ()=>toggleCart(false));
+  els.checkoutBtn.addEventListener('click', checkout);
+
+  // init
+  document.getElementById('year').textContent = new Date().getFullYear();
+  renderProducts();
+  syncCart();
+  </script></body>
+  </html>
