@@ -222,7 +222,7 @@ function syncCart(){
   const total = STATE.cart.reduce((s,i)=>s+i.qty*i.price,0); els.total.textContent = fmt(total);
   els.items.innerHTML = STATE.cart.map(i=>`
     <div class="item">
-      <img loading="lazy" src="https://picsum.photos/seed/${i.id}/160/160" alt="${i.title}">
+      <img loading="lazy" src="${PRODUCTS.find(p=>p.id===i.id).img}" alt="${i.title}">
       <div><div style="font-weight:700">${i.title}</div><div class="muted">${fmt(i.price)} × ${i.qty}</div></div>
       <div class="qty"><button onclick="qty(${i.id},-1)">−</button><span>${i.qty}</span><button onclick="qty(${i.id},1)">+</button></div>
     </div>`).join('');
