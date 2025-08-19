@@ -4,57 +4,55 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Shop – Google Sheets Connected</title>
-  <meta name="description" content="Professional, mobile‑first e‑commerce front‑end that pulls products from Google Sheets JSON (gviz). Host free on GitHub Pages.">
+  <title>Ilmora Fashion BD – Home</title>
+  <meta name="description" content="Ilmora Fashion BD – Google Sheets connected e‑commerce front‑end with WhatsApp checkout.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <div class="container" style="display:flex;align-items:center;gap:12px;justify-content:space-between;padding:10px 0;">
-      <div class="brand">
-        <span class="logo"><img id="brandLogo" alt="Logo"></span>
-        <span id="brandName">My Shop</span>
-      </div>
-      <div class="toolbar">
-        <input id="q" placeholder="সার্চ… (যেমন: টি‑শার্ট, লিপস্টিক)">
-        <select id="cat"><option value="all">সব ক্যাটাগরি</option></select>
-        <select id="sort">
-          <option value="recent">নতুন আগে</option>
-          <option value="price-asc">দাম: কম → বেশি</option>
-          <option value="price-desc">দাম: বেশি → কম</option>
-        </select>
-        <button class="btn ghost" id="openCart">🛒 কার্ট (<span id="cc1">0</span>)</button>
-      </div>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="images/logo.png" alt="Ilmora Fashion BD" />
+        <span class="brand-name">Ilmora Fashion BD</span>
+      </a>
+      <nav class="menu">
+        <a href="index.html">হোম</a>
+        <a href="#products">পণ্যসমূহ</a>
+        <a href="contact.html">যোগাযোগ</a>
+      </nav>
     </div>
-  </header>
-  
-  <section class="hero">
-    <div class="slides" id="slides"></div>
-    <div class="hero-dots" id="dots"></div>
-  </section>
-  
-  <div class="container">
-    <div class="notice" id="status">📦 Google Sheets থেকে প্রোডাক্ট লোড হচ্ছে…</div>
-    <div id="grid" class="grid"></div>
-  </div>
-  
-  <button class="btn primary cart-fab" id="fab">🛒 কার্ট • <span id="cc2">0</span></button>
+  </header>  <section class="banner">
+    <img src="images/banner.jpg" alt="Banner" />
+    <div class="banner-overlay">
+      <h1>নতুন কালেকশন</h1>
+      <p>সেরা দামে মানসম্মত পণ্য</p>
+      <a class="btn primary" href="#products">এখনই দেখুন</a>
+    </div>
+  </section>  <main class="container">
+    <section class="toolbar" id="products">
+      <input id="search" placeholder="সার্চ… (টি‑শার্ট, জিন্স, লিপস্টিক)" />
+      <select id="cat"><option value="all">সব ক্যাটাগরি</option></select>
+      <select id="sort">
+        <option value="recent">নতুন আগে</option>
+        <option value="price-asc">দাম: কম → বেশি</option>
+        <option value="price-desc">দাম: বেশি → কম</option>
+      </select>
+    </section><div id="status" class="notice">📦 Google Sheets থেকে প্রোডাক্ট লোড হচ্ছে…</div>
 
-  <aside class="panel" id="cart">
-    <div class="panel-h"><strong>আপনার কার্ট</strong><button class="btn ghost" id="closeCart">✕</button></div>
-    <div class="items" id="items"></div>
-    <div class="panel-b">
-      <div class="row"><span style="font-weight:700">সাবটোটাল</span><span id="total">৳0</span></div>
-      <button class="btn primary" id="checkout">✅ WhatsApp‑এ অর্ডার করুন</button>
-      <small class="muted">ক্যাশ অন ডেলিভারি/অফলাইনে পেমেন্ট—WhatsApp‑এ ঠিকানা নিশ্চিত করুন।</small>
+<section id="grid" class="grid">
+  <!-- JS থেকে কার্ড আসবে -->
+</section>
+
+  </main>  <footer class="footer">
+    <div class="container">
+      <div>© <span id="yr"></span> Ilmora Fashion BD · Powered by Google Sheets & GitHub Pages</div>
+      <div>
+        <a href="https://wa.me/8801778095805" target="_blank" rel="noopener" class="btn ghost">WhatsApp</a>
+        <a href="contact.html" class="btn ghost">যোগাযোগ</a>
+      </div>
     </div>
-  </aside>
-  
-  <footer>© <span id="yr"></span> <span id="footerBrand">My Shop</span> · GitHub Pages</footer>
-  
-  <script src="script.js"></script>
-</body>
+  </footer>  <script src="script.js"></script></body>
 </html>
