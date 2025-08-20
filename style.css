@@ -1,290 +1,169 @@
-:root {
-    --primary-color: #333;
-    --secondary-color: #555;
-    --accent-color: #007bff;
-    --background-color: #f4f4f4;
-    --white-color: #fff;
-    --font-family: 'Roboto', sans-serif;
-}
+document.addEventListener('DOMContentLoaded', () => {
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+    // IMPORTANT: REPLACE THIS WITH YOUR PUBLISHED GOOGLE SHEET LINK
+    const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/15MFPVNCE9DF6JlxDSaAgneiymb_4PiUk4GAoPZfvEKE/edit?usp=drivesdk';
 
-body {
-    font-family: var(--font-family);
-    line-height: 1.6;
-    background-color: var(--background-color);
-    color: var(--primary-color);
-}
+    // IMPORTANT: REPLACE THIS WITH YOUR WHATSAPP NUMBER
+    const WHATSAPP_NUMBER = '8801712345678';
 
-/* Header & Navigation */
-.header {
-    background: var(--white-color);
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
+    const GITHUB_REPO = 'https://raw.githubusercontent.com/your-username/your-repo-name/main/images/';
 
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    text-decoration: none;
-}
+    const path = window.location.pathname;
 
-.nav a {
-    color: var(--secondary-color);
-    text-decoration: none;
-    margin-left: 20px;
-    font-weight: 400;
-    transition: color 0.3s ease;
-}
-
-.nav a:hover {
-    color: var(--accent-color);
-}
-
-/* Banner */
-.banner {
-    background: url('https://via.placeholder.com/1920x600.png?text=E-commerce+Banner') no-repeat center center/cover;
-    color: var(--white-color);
-    text-align: center;
-    padding: 100px 20px;
-}
-
-.banner-content {
-    background: rgba(0, 0, 0, 0.5);
-    display: inline-block;
-    padding: 2rem;
-    border-radius: 10px;
-}
-
-.banner h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-}
-
-.banner p {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-}
-
-.btn {
-    display: inline-block;
-    background: var(--accent-color);
-    color: var(--white-color);
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-    border: none;
-    cursor: pointer;
-}
-
-.btn:hover {
-    background: #0056b3;
-}
-
-/* Product Grid */
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
-}
-
-.product-card {
-    background: var(--white-color);
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    overflow: hidden;
-    text-align: center;
-    transition: transform 0.3s ease;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-}
-
-.product-card img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-}
-
-.product-card-content {
-    padding: 15px;
-}
-
-.product-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-}
-
-.product-card p {
-    font-weight: 700;
-    color: var(--accent-color);
-}
-
-.product-card a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* Sections */
-section {
-    padding: 40px 20px;
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2rem;
-}
-
-/* Product Detail Page */
-.product-detail {
-    max-width: 900px;
-    margin: auto;
-    padding: 40px 20px;
-}
-
-.product-detail-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.product-detail-image {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-}
-
-.product-detail-content {
-    text-align: center;
-}
-
-.product-detail-content h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-.product-detail-content .price {
-    font-size: 1.8rem;
-    color: var(--accent-color);
-    font-weight: 700;
-    margin-bottom: 20px;
-}
-
-.product-detail-content .description {
-    font-size: 1rem;
-    line-height: 1.8;
-    margin-bottom: 30px;
-}
-
-/* Contact Form */
-.contact-form-section {
-    max-width: 600px;
-    margin: auto;
-}
-
-.contact-form {
-    background: var(--white-color);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 700;
-}
-
-.form-group input, .form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-family: var(--font-family);
-}
-
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 10;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 500px;
-    position: relative;
-    animation: fadeIn 0.3s;
-}
-
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #aaa;
-}
-
-.close-btn:hover {
-    color: #555;
-}
-
-/* Footer */
-.footer {
-    background: var(--primary-color);
-    color: var(--white-color);
-    text-align: center;
-    padding: 20px;
-    margin-top: 20px;
-}
-
-/* Responsive Styles */
-@media (min-width: 768px) {
-    .product-detail-container {
-        flex-direction: row;
-        gap: 40px;
-        text-align: left;
+    async function fetchData() {
+        try {
+            const response = await fetch(GOOGLE_SHEET_URL);
+            const csvText = await response.text();
+            const products = parseCSV(csvText);
+            return products;
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            return [];
+        }
     }
-    .product-detail-image-wrapper {
-        flex-shrink: 0;
+
+    function parseCSV(csvText) {
+        const lines = csvText.split('\n').map(line => line.trim()).filter(line => line);
+        if (lines.length <= 1) return [];
+
+        const headers = lines[0].split(',').map(h => h.trim());
+        const data = lines.slice(1);
+
+        return data.map(line => {
+            const values = line.split(',').map(v => v.trim());
+            const product = {};
+            headers.forEach((header, i) => {
+                product[header] = values[i];
+            });
+            return product;
+        });
     }
-    .product-detail-content {
-        text-align: left;
+
+    function createProductCard(product) {
+        const productCard = document.createElement('a');
+        productCard.href = `product-detail.html?name=${encodeURIComponent(product.Name)}`;
+        productCard.className = 'product-card';
+        productCard.innerHTML = `
+            <img src="${GITHUB_REPO}${product.ImageFileName}" alt="${product.Name}">
+            <div class="product-card-content">
+                <h3>${product.Name}</h3>
+                <p>${product.Price}</p>
+            </div>
+        `;
+        return productCard;
     }
-    .product-detail-content h1 {
-        font-size: 3rem;
+
+    // Home Page Logic
+    if (path.includes('index.html') || path === '/') {
+        fetchData().then(products => {
+            const featuredProductsGrid = document.getElementById('featured-products-grid');
+            if (featuredProductsGrid) {
+                const featured = products.slice(0, 3); // Show first 3 products
+                featured.forEach(product => {
+                    featuredProductsGrid.appendChild(createProductCard(product));
+                });
+            }
+        });
     }
-}
+
+    // Products Page Logic
+    if (path.includes('products.html')) {
+        fetchData().then(products => {
+            const allProductsGrid = document.getElementById('all-products-grid');
+            if (allProductsGrid) {
+                products.forEach(product => {
+                    allProductsGrid.appendChild(createProductCard(product));
+                });
+            }
+        });
+    }
+
+    // Product Detail Page Logic
+    if (path.includes('product-detail.html')) {
+        const params = new URLSearchParams(window.location.search);
+        const productName = params.get('name');
+
+        if (productName) {
+            fetchData().then(products => {
+                const product = products.find(p => p.Name === productName);
+                if (product) {
+                    renderProductDetail(product);
+                } else {
+                    document.getElementById('product-detail-container').innerHTML = '<p>Product not found.</p>';
+                }
+            });
+        }
+    }
+
+    function renderProductDetail(product) {
+        const container = document.getElementById('product-detail-container');
+        if (!container) return;
+
+        container.innerHTML = `
+            <img src="${GITHUB_REPO}${product.ImageFileName}" alt="${product.Name}" class="product-detail-image">
+            <div class="product-detail-content">
+                <h1>${product.Name}</h1>
+                <p class="price">${product.Price}</p>
+                <p class="description">${product.Description}</p>
+                <button class="btn" id="order-now-btn">Order Now</button>
+            </div>
+        `;
+
+        const orderBtn = document.getElementById('order-now-btn');
+        if (orderBtn) {
+            orderBtn.addEventListener('click', () => {
+                const modal = document.getElementById('order-modal');
+                modal.style.display = 'flex';
+                document.getElementById('product-name-input').value = product.Name;
+                document.getElementById('product-price-input').value = product.Price;
+            });
+        }
+
+        const modal = document.getElementById('order-modal');
+        const closeBtn = document.querySelector('.close-btn');
+
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        const orderForm = document.getElementById('order-form');
+        if (orderForm) {
+            orderForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const customerName = document.getElementById('customer-name').value;
+                const customerPhone = document.getElementById('customer-phone').value;
+                const customerAddress = document.getElementById('customer-address').value;
+                const productName = document.getElementById('product-name-input').value;
+                const productPrice = document.getElementById('product-price-input').value;
+
+                const message = `New Order:\n-----------\nProduct: ${productName}\nPrice: ${productPrice}\nCustomer Name: ${customerName}\nPhone: ${customerPhone}\nAddress: ${customerAddress}`;
+                const encodedMessage = encodeURIComponent(message);
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, '_blank');
+            });
+        }
+    }
+
+    // Contact Page Logic
+    if (path.includes('contact.html')) {
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('contact-name').value;
+                const phone = document.getElementById('contact-phone').value;
+                const address = document.getElementById('contact-address').value;
+                const message = document.getElementById('contact-message').value;
+
+                const whatsappMessage = `New Contact Message:\n---------------------\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\nMessage: ${message}`;
+                const encodedMessage = encodeURIComponent(whatsappMessage);
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, '_blank');
+            });
+        }
+    }
+});
