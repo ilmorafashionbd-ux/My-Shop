@@ -8,6 +8,8 @@ const WHATSAPP = "8801778095805";
 
 // GitHub image base path
 const imageBaseURL = "https://ilmorafashionbd-ux.github.io/My-Shop/images/";
+const imgFile = safe(c[map.image]?.v);
+const img = imgFile ? imageBaseURL + imgFile :";
 
 // শিটের কলাম হেডার
 const HEADERS = {
