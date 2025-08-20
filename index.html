@@ -1,58 +1,41 @@
-<!doctype html>
-
-<html lang="bn">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ilmora Fashion BD – Home</title>
-  <meta name="description" content="Ilmora Fashion BD – Google Sheets connected e‑commerce front‑end with WhatsApp checkout.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your E-Commerce Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="nav">
-    <div class="container nav-inner">
-      <a class="brand" href="index.html">
-        <img class="brand-logo" src="images/logo.png" alt="Ilmora Fashion BD" />
-        <span class="brand-name">Ilmora Fashion BD</span>
-      </a>
-      <nav class="menu">
-        <a href="index.html">হোম</a>
-        <a href="#products">পণ্যসমূহ</a>
-        <a href="contact.html">যোগাযোগ</a>
-      </nav>
-    </div>
-  </header>  <section class="banner">
-    <img src="images/banner.jpg" alt="Banner" />
-    <div class="banner-overlay">
-      <h1>নতুন কালেকশন</h1>
-      <p>সেরা দামে মানসম্মত পণ্য</p>
-      <a class="btn primary" href="#products">এখনই দেখুন</a>
-    </div>
-  </section>  <main class="container">
-    <section class="toolbar" id="products">
-      <input id="search" placeholder="সার্চ… (টি‑শার্ট, জিন্স, লিপস্টিক)" />
-      <select id="cat"><option value="all">সব ক্যাটাগরি</option></select>
-      <select id="sort">
-        <option value="recent">নতুন আগে</option>
-        <option value="price-asc">দাম: কম → বেশি</option>
-        <option value="price-desc">দাম: বেশি → কম</option>
-      </select>
-    </section><div id="status" class="notice">📦 Google Sheets থেকে প্রোডাক্ট লোড হচ্ছে…</div>
 
-<section id="grid" class="grid">
-  <!-- JS থেকে কার্ড আসবে -->
-</section>
+    <header class="header">
+        <a href="index.html" class="logo">Your Store</a>
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
 
-  </main>  <footer class="footer">
-    <div class="container">
-      <div>© <span id="yr"></span> Ilmora Fashion BD · Powered by Google Sheets & GitHub Pages</div>
-      <div>
-        <a href="https://wa.me/8801778095805" target="_blank" rel="noopener" class="btn ghost">WhatsApp</a>
-        <a href="contact.html" class="btn ghost">যোগাযোগ</a>
-      </div>
+    <div class="banner">
+        <div class="banner-content">
+            <h1>Fresh Styles, Great Prices</h1>
+            <p>Shop our exclusive collection of clothing.</p>
+            <a href="products.html" class="btn">Shop Now</a>
+        </div>
     </div>
-  </footer>  <script src="script.js"></script></body>
+
+    <section class="featured-products">
+        <h2>Featured Products</h2>
+        <div id="featured-products-grid" class="product-grid">
+            </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 Your E-Commerce Store. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
 </html>
