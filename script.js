@@ -1,23 +1,12 @@
 /**************** CONFIG ****************/
-// আপনার Google Sheet ID
-const SHEET_ID = "1Euf6Rz-fRAjtzVj7aEoxmzxLA7vrfOuAvNjfo-ctDf0";
-// gviz JSON URL (হেডারসহ শিটের প্রথম শিট ব্যবহার হবে)
-const DATA_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
-// আপনার WhatsApp নম্বর (+ ছাড়া, কান্ট্রি কোডসহ)
+// আপনার Google Sheet CSV URL
+const DATA_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJSc-B0_uG9Yt1QOMq6Kcq0ccW4dbztEFeRXUYqZIIWvVQWhG4NrcHXB4WBq-5G2JXHRuz7lpbDGK/pub?gid=0&single=true&output=csv";
+
+// আপনার WhatsApp নম্বর (Country code + Number, + ছাড়া)
 const WHATSAPP = "8801778095805";
 
 // GitHub image base path
 const imageBaseURL = "https://ilmorafashionbd-ux.github.io/My-Shop/images/";
-const imgFile = safe(c[map.image]?.v);
-const img = imgFile ? imageBaseURL + imgFile :";
-
-// শিটের কলাম হেডার
-const HEADERS = {
-  name: ["name","product","product name","পণ্য","পণ্যের নাম"],
-  price: ["price","দাম","মূল্য"],
-  description: ["description","বর্ণনা","details","বিস্তারিত"],
-  image: ["image","photo","img","ছবি"]
-};
 
 /**************** STATE ****************/
 let PRODUCTS = []; 
@@ -37,37 +26,31 @@ function setStatus(msg, ok=true){
   if(!s) return; s.textContent = msg; s.style.background = ok? '#0b1424' : '#3b0a0a';
 }
 
-/**************** FETCH & PARSE (GVIZ) ****************/
+/**************** FETCH & PARSE (CSV) ****************/
 async function fetchProducts(){
   const res = await fetch(DATA_URL, {cache:'no-store'});
   const text = await res.text();
-  const json = JSON.parse(text.substring(text.indexOf('(')+1, text.lastIndexOf(')')));
-  const table = json.table;
-  const rows = table.rows||[];
-  if(!rows.length) throw new Error('শিটে কোনো ডেটা পাওয়া যায়নি');
 
-  // ধরলাম প্রথম সারি হেডার
-  const headerRow = rows[0].c.map(c=> (c? String(c.v).trim().toLowerCase(): ''));
-  const map = {};
-  Object.entries(HEADERS).forEach(([key, aliases])=>{
-    const idx = headerRow.findIndex(h=> aliases.includes(h));
-    if(idx>-1) map[key]=idx;
-  });
+  // CSV → Array
+  const rows = text.split("\n").map(r=>r.split(","));
+  const header = rows[0].map(h=>h.trim().toLowerCase());
+
+  const nameIdx = header.indexOf("name");
+  const priceIdx = header.indexOf("price");
+  const descIdx = header.indexOf("description");
+  const imgIdx = header.indexOf("image");
 
   const list=[];
   for(let r=1; r<rows.length; r++){
-    const c = rows[r].c||[];
-    const name = safe(c[map.name]?.v);
-    const price = safe(c[map.price]?.v);
-    const imgFile = safe(c[map.image]?.v);
-    if(!name || !price || !imgFile) continue;
+    const cols = rows[r];
+    if(!cols[nameIdx] || !cols[priceIdx] || !cols[imgIdx]) continue;
 
     list.push({
-      id: r, 
-      title: name,
-      price: Number(price),
-      img: imageBaseURL + imgFile,
-      desc: safe(c[map.description]?.v)
+      id: r,
+      title: cols[nameIdx],
+      price: Number(cols[priceIdx]),
+      desc: cols[descIdx],
+      img: imageBaseURL + cols[imgIdx].trim()  // GitHub image ব্যবহার
     });
   }
   return list;
@@ -144,7 +127,7 @@ function renderDetail(prod){
   setYear();
   try{
     PRODUCTS = await fetchProducts();
-    if(el('#status')) setStatus('✅ Google Sheets কানেক্টেড! প্রোডাক্ট লোড হয়েছে।');
+    if(el('#status')) setStatus('✅ Google Sheets CSV কানেক্টেড! প্রোডাক্ট লোড হয়েছে।');
 
     // HOME
     if(el('#grid')){
