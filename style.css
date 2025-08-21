@@ -293,3 +293,48 @@ h2 {
         font-size: 3rem;
     }
     }
+
+/* =====================
+   Mobile Responsive Fix
+   ===================== */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav {
+        margin-top: 10px;
+    }
+
+    .nav a {
+        display: block;
+        margin: 8px 0;
+    }
+
+    .banner {
+        padding: 50px 15px; /* মোবাইলে ব্যানার ছোট হবে */
+    }
+
+    .banner h1 {
+        font-size: 2rem;
+    }
+
+    .banner p {
+        font-size: 1rem;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+    }
+
+    .product-card img {
+        height: 180px; /* মোবাইলে প্রোডাক্ট ছবি ছোট হবে */
+    }
+
+    .product-detail-container {
+        flex-direction: column !important;
+        text-align: center;
+    }
+}
