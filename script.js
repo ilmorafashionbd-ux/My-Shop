@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // IMPORTANT: REPLACE THIS WITH YOUR WHATSAPP NUMBER
     const WHATSAPP_NUMBER = '8801712345678';
 
-    const GITHUB_REPO = 'https://ilmorafashionbd-ux.github.io/My-Shop/images/banner.jpg';
+    const GITHUB_REPO = 'https://ilmorafashionbd-ux.github.io/My-Shop/images/';
 
     const path = window.location.pathname;
 
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Home Page Logic
-    if (path.includes('index.html') || path === '/') {
+    if (path.includes('index.html') || path === '/' || path.endsWith('/My-Shop/')) {
         fetchData().then(products => {
             const featuredProductsGrid = document.getElementById('featured-products-grid');
             if (featuredProductsGrid) {
