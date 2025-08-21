@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // IMPORTANT: REPLACE THIS WITH YOUR WHATSAPP NUMBER
     const WHATSAPP_NUMBER = '8801712345678';
 
-    const GITHUB_REPO = 'https://raw.githubusercontent.com/your-username/your-repo-name/main/images/';
+    const GITHUB_REPO = 'https://ilmorafashionbd-ux.github.io/My-Shop/images/banner.jpg';
 
     const path = window.location.pathname;
 
