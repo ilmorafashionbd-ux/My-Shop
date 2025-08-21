@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRvJSc-B0_uG9Yt1QOMq6Kcq0ccW4dbztEFeRXUYqZIIWvVQWhG4NrcHXB4WBq-5G2JXHRuz7lpbDGK/pub?gid=0&single=true&output=csv';
 
     // IMPORTANT: REPLACE THIS WITH YOUR WHATSAPP NUMBER
-    const WHATSAPP_NUMBER = '8801712345678';
+    const WHATSAPP_NUMBER = '8801778095805';
 
     const GITHUB_REPO = 'https://ilmorafashionbd-ux.github.io/My-Shop/images/';
 
