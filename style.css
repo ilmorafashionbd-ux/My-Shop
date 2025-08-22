@@ -22,7 +22,7 @@ body {
 
 /* Header & Navigation */
 .header {
-    background: var(--white-color);
+    background: #0b1424; /* এখানে ব্যাকগ্রাউন্ড কালার বসানো হলো */
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
@@ -33,17 +33,17 @@ body {
 .logo {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--white-color); /* লোগো টেক্সট/লিংক সাদা হবে */
     text-decoration: none;
 }
 
 .logo img {
-    height: 50px; /* Adjust height as needed */
+    height: 50px;
     vertical-align: middle;
 }
 
 .nav a {
-    color: var(--secondary-color);
+    color: var(--white-color); /* মেনু লিংকগুলোও সাদা হবে */
     text-decoration: none;
     margin-left: 20px;
     font-weight: 400;
@@ -51,7 +51,7 @@ body {
 }
 
 .nav a:hover {
-    color: var(--accent-color);
+    color: var(--accent-color); /* হোভার করলে নীল হবে */
 }
 
 /* Banner */
