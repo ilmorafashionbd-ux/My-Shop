@@ -163,8 +163,9 @@ h2 {
 
 .product-detail-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Updated for desktop view */
     align-items: center;
+    gap: 40px; /* Added for desktop view */
 }
 
 .product-detail-image {
@@ -174,14 +175,15 @@ h2 {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     margin-bottom: 20px;
+    flex-shrink: 0; /* Added for desktop view */
 }
 
 .product-detail-content {
-    text-align: center;
+    text-align: left; /* Updated for desktop view */
 }
 
 .product-detail-content h1 {
-    font-size: 2.5rem;
+    font-size: 3rem; /* Updated for desktop view */
     margin-bottom: 10px;
 }
 
@@ -276,65 +278,4 @@ h2 {
     margin-top: 20px;
 }
 
-/* Responsive Styles */
-@media (min-width: 768px) {
-    .product-detail-container {
-        flex-direction: row;
-        gap: 40px;
-        text-align: left;
-    }
-    .product-detail-image-wrapper {
-        flex-shrink: 0;
-    }
-    .product-detail-content {
-        text-align: left;
-    }
-    .product-detail-content h1 {
-        font-size: 3rem;
-    }
-    }
-
-/* =====================
-   Mobile Responsive Fix
-   ===================== */
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .nav {
-        margin-top: 10px;
-    }
-
-    .nav a {
-        display: block;
-        margin: 8px 0;
-    }
-
-    .banner {
-        padding: 50px 15px; /* মোবাইলে ব্যানার ছোট হবে */
-    }
-
-    .banner h1 {
-        font-size: 2rem;
-    }
-
-    .banner p {
-        font-size: 1rem;
-    }
-
-    .product-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 10px;
-    }
-
-    .product-card img {
-        height: 180px; /* মোবাইলে প্রোডাক্ট ছবি ছোট হবে */
-    }
-
-    .product-detail-container {
-        flex-direction: column !important;
-        text-align: center;
-    }
-}
+/* Responsive styles have been merged and the @media query has been removed. */
