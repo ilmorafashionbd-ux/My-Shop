@@ -1,10 +1,13 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap');
+
 :root {
     --primary-color: #333;
-    --secondary-color: #555;
     --accent-color: #007bff;
     --background-color: #f4f4f4;
     --white-color: #fff;
-    --font-family: 'Roboto', sans-serif;
+    /* Using Bengali font for better readability of your content */
+    --font-family: 'Noto Sans Bengali', sans-serif; 
 }
 
 * {
@@ -20,20 +23,20 @@ body {
     color: var(--primary-color);
 }
 
-/* Header & Navigation */
+/* Header & Navigation (from Myself.zip) */
 .header {
-    background: #0b1424; /* এখানে ব্যাকগ্রাউন্ড কালার বসানো হলো */
+    background: #0b1424;
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--white-color); /* লোগো টেক্সট/লিংক সাদা হবে */
     text-decoration: none;
 }
 
@@ -43,23 +46,24 @@ body {
 }
 
 .nav a {
-    color: var(--white-color); /* মেনু লিংকগুলোও সাদা হবে */
+    color: var(--white-color);
     text-decoration: none;
     margin-left: 20px;
-    font-weight: 400;
+    font-weight: 500;
     transition: color 0.3s ease;
 }
 
 .nav a:hover {
-    color: var(--accent-color); /* হোভার করলে নীল হবে */
+    color: var(--accent-color);
 }
 
-/* Banner */
+/* Banner (from Myself.zip) */
 .banner {
-    background: url('https://ilmorafashionbd-ux.github.io/My-Shop/images/banner.jpg') no-repeat center center/cover;
+    /* Your original banner image is used here */
+    background: url('https://ilmorafashionbd-ux.github.io/My-Shop-/images/banner.jpg') no-repeat center center/cover;
     color: var(--white-color);
     text-align: center;
-    padding: 60px 20px;
+    padding: 80px 20px;
 }
 
 .banner-content {
@@ -79,6 +83,7 @@ body {
     margin-bottom: 20px;
 }
 
+/* Button Style (from Myself.zip) */
 .btn {
     display: inline-block;
     background: var(--accent-color);
@@ -89,13 +94,32 @@ body {
     transition: background 0.3s ease;
     border: none;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .btn:hover {
     background: #0056b3;
 }
 
-/* Product Grid */
+.btn:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}
+
+
+/* Sections */
+.products-section {
+    padding: 40px 20px;
+}
+
+.products-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+/* Product Grid & Card (Combined Style) */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -111,11 +135,14 @@ body {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     overflow: hidden;
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative; /* For stock status */
 }
 
 .product-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
 }
 
 .product-card img {
@@ -124,152 +151,149 @@ body {
     object-fit: cover;
 }
 
-.product-card-content {
+.product-info {
     padding: 15px;
 }
 
-.product-card h3 {
+.product-info h3 {
     font-size: 1.2rem;
-    margin-bottom: 5px;
-}
-
-.product-card p {
-    font-weight: 700;
-    color: var(--accent-color);
-}
-
-.product-card a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* Sections */
-section {
-    padding: 40px 20px;
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2rem;
-}
-
-/* Product Detail Page */
-.product-detail {
-    max-width: 900px;
-    margin: auto;
-    padding: 40px 20px;
-}
-
-.product-detail-container {
-    display: flex;
-    flex-direction: row; /* Updated for desktop view */
-    align-items: center;
-    gap: 40px; /* Added for desktop view */
-}
-
-.product-detail-image {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-    flex-shrink: 0; /* Added for desktop view */
-}
-
-.product-detail-content {
-    text-align: left; /* Updated for desktop view */
-}
-
-.product-detail-content h1 {
-    font-size: 3rem; /* Updated for desktop view */
     margin-bottom: 10px;
 }
 
-.product-detail-content .price {
-    font-size: 1.8rem;
+.product-info p {
+    font-weight: 700;
     color: var(--accent-color);
-    font-weight: 700;
-    margin-bottom: 20px;
-}
-
-.product-detail-content .description {
-    font-size: 1rem;
-    line-height: 1.8;
-    margin-bottom: 30px;
-}
-
-/* Contact Form */
-.contact-form-section {
-    max-width: 600px;
-    margin: auto;
-}
-
-.contact-form {
-    background: var(--white-color);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.form-group {
     margin-bottom: 15px;
+    font-size: 1.1rem;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 700;
-}
-
-.form-group input, .form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
+.stock-status {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(220, 53, 69, 0.9);
+    color: var(--white-color);
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: 500;
     border-radius: 5px;
-    font-family: var(--font-family);
+    z-index: 2;
 }
 
-/* Modal */
+
+/* Modal Styles (Functionality from Shihab.zip, adapted to new design) */
 .modal {
     display: none;
     position: fixed;
-    z-index: 10;
+    z-index: 1001;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.6);
     justify-content: center;
     align-items: center;
+    overflow: auto;
 }
 
 .modal-content {
-    background-color: #fff;
-    padding: 20px;
+    background-color: var(--white-color);
+    padding: 25px;
     border-radius: 10px;
     width: 90%;
-    max-width: 500px;
+    max-width: 800px; /* For detail modal */
     position: relative;
-    animation: fadeIn 0.3s;
+    animation: fadeIn 0.4s;
+    margin: 5% auto;
+}
+
+#order-modal .modal-content {
+    max-width: 500px; /* For order modal */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .close-btn {
     position: absolute;
     top: 10px;
     right: 20px;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: bold;
     cursor: pointer;
     color: #aaa;
 }
 
 .close-btn:hover {
-    color: #555;
+    color: #333;
 }
 
-/* Footer */
+/* Product Detail Modal Content */
+.product-detail-layout {
+    display: flex;
+    gap: 30px;
+}
+
+.product-detail-image img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 8px;
+}
+
+.product-detail-info h2 {
+    font-size: 26px;
+    margin-bottom: 15px;
+}
+
+.product-detail-info .product-price {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: var(--accent-color);
+}
+
+.product-detail-info .product-description {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.related-products {
+    margin-top: 40px;
+}
+
+.related-products h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+
+/* Order Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: var(--font-family);
+}
+
+
+/* Footer (from Myself.zip) */
 .footer {
     background: var(--primary-color);
     color: var(--white-color);
@@ -278,4 +302,19 @@ h2 {
     margin-top: 20px;
 }
 
-/* Responsive styles have been merged and the @media query has been removed. */
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        padding: 1rem;
+    }
+    .nav {
+        margin-top: 10px;
+    }
+    .banner h1 {
+        font-size: 2rem;
+    }
+    .product-detail-layout {
+        flex-direction: column;
+    }
+}
