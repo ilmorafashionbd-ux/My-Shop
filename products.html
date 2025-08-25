@@ -1,35 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Products - Your Store</title>
+    <title>All Products - Ilmora Fashion BD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header class="header">
-        <a href="index.html" class="logo">
-            <img src="https://ilmorafashionbd-ux.github.io/My-Shop/images/logo.png" alt="Your Store Logo">
-        </a>
-        <nav class="nav">
-            <a href="index.html">Home</a>
-            <a href="products.html">Products</a>
-            <a href="contact.html">Contact</a>
-        </nav>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="https://ilmorafashionbd-ux.github.io/My-Shop-/images/logo.png" alt="Ilmora Fashion Logo">
+                <span>Ilmora Fashion</span>
+            </a>
+            <nav class="navbar">
+                <a href="index.html">হোম</a>
+                <a href="products.html">শপ</a>
+                <a href="contact.html">যোগাযোগ</a>
+            </nav>
+            <div class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
     </header>
 
-    <section class="all-products">
-        <h2>All Products</h2>
-        <div id="all-products-grid" class="product-grid">
+    <main>
+        <section class="products">
+            <div class="container">
+                <h2 class="section-title">আমাদের সকল প্রোডাক্ট</h2>
+                <div id="product-grid" class="product-grid">
+                    <!-- All products will be loaded here by JavaScript -->
+                </div>
             </div>
-    </section>
+        </section>
+    </main>
 
-    <footer class="footer">
-        <p>&copy; 2025 Your E-Commerce Store. All rights reserved.</p>
+    <!-- Order Form Modal (reusable) -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn order-close-btn">&times;</span>
+            <h2>অর্ডার কনফার্ম করুন</h2>
+            <form id="order-form">
+                <input type="hidden" id="product-name-input">
+                <div class="form-group">
+                    <label for="customer-name">আপনার নাম</label>
+                    <input type="text" id="customer-name" placeholder="এখানে আপনার নাম লিখুন" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-address">সম্পূর্ণ ঠিকানা</label>
+                    <input type="text" id="customer-address" placeholder="আপনার সম্পূর্ণ ঠিকানা দিন" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-mobile">মোবাইল নম্বর</label>
+                    <input type="tel" id="customer-mobile" placeholder="আপনার মোবাইল নম্বর দিন" required>
+                </div>
+                <button type="submit" class="submit-btn">WhatsApp এ অর্ডার করুন</button>
+            </form>
+        </div>
+    </div>
+
+    <footer id="footer" class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 Ilmora Fashion. All Rights Reserved.</p>
+            </div>
+        </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
