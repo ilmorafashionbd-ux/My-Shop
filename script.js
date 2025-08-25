@@ -1,13 +1,12 @@
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- DOM Element References ---
     const productGrid = document.getElementById('product-grid');
     const productDetailModal = document.getElementById('product-detail-modal');
-    const orderModal = document.getElementById('order-modal');
     const productDetailContent = document.getElementById('product-detail-content');
     const relatedProductsGrid = document.getElementById('related-products-grid');
     const orderForm = document.getElementById('order-form');
-    const productNameInput = document.getElementById('product-name-input');
     const menuBtn = document.querySelector('.menu-btn');
     const navbar = document.querySelector('.navbar');
 
@@ -17,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const WHATSAPP_NUMBER = '8801778095805'; // Your WhatsApp Number with country code
 
     let allProducts = [];
+    let currentSelectedProduct = null;
 
     // --- Data Fetching and Parsing ---
     function fetchProducts() {
@@ -24,7 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
             download: true,
             header: true,
             complete: (results) => {
-                allProducts = results.data.filter(p => p.ID && p.Name); // Filter out empty rows
+                // Filter out empty rows and trim whitespace from data
+                allProducts = results.data.filter(p => p.ID && p.Name).map(p => {
+                    const cleanProduct = {};
+                    for (const key in p) {
+                        cleanProduct[key] = typeof p[key] === 'string' ? p[key].trim() : p[key];
+                    }
+                    return cleanProduct;
+                });
                 displayProducts(allProducts, productGrid);
                 setupEventListeners();
             },
@@ -39,15 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayProducts(products, gridElement) {
         gridElement.innerHTML = '';
         products.forEach(product => {
-            const isOutOfStock = product.Stock === 'Out';
+            const isOutOfStock = product.Stock && product.Stock.toLowerCase() === 'out';
             const card = document.createElement('div');
             card.className = 'product-card';
             card.dataset.id = product.ID;
 
             card.innerHTML = `
                 <div class="product-image">
-                    <img src="${IMAGE_BASE_URL}${product.Image}" alt="${product.Name}">
-                    ${isOutOfStock ? '<div class="stock-status">Stock Out</div>' : ''}
+                    <img src="${IMAGE_BASE_URL}${product.Image}" alt="${product.Name}" onerror="this.onerror=null;this.src='https://placehold.co/600x600/e0e0e0/555?text=Image+Unavailable'">
+                    ${isOutOfStock ? '<div class="stock-status">স্টক নেই</div>' : ''}
                 </div>
                 <div class="product-info">
                     <div>
@@ -55,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p class="product-price">৳${product.Price}</p>
                     </div>
                     <button class="order-btn" data-id="${product.ID}" ${isOutOfStock ? 'disabled' : ''}>
-                        ${isOutOfStock ? 'Unavailable' : 'অর্ডার করুন'}
+                        ${isOutOfStock ? 'স্টক নেই' : 'অর্ডার করুন'}
                     </button>
                 </div>
             `;
@@ -75,56 +82,61 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showProductDetail(productId) {
-        const product = allProducts.find(p => p.ID === productId);
-        if (!product) return;
+        currentSelectedProduct = allProducts.find(p => p.ID === productId);
+        if (!currentSelectedProduct) return;
 
         productDetailContent.innerHTML = `
             <div class="product-detail-layout">
                 <div class="product-detail-image">
-                    <img src="${IMAGE_BASE_URL}${product.Image}" alt="${product.Name}">
+                    <img src="${IMAGE_BASE_URL}${currentSelectedProduct.Image}" alt="${currentSelectedProduct.Name}" onerror="this.onerror=null;this.src='https://placehold.co/600x600/e0e0e0/555?text=Image+Unavailable'">
                 </div>
                 <div class="product-detail-info">
-                    <h2>${product.Name}</h2>
-                    <p class="product-price">Price: ৳${product.Price}</p>
-                    <p class="product-description">${product.Description || 'No description available.'}</p>
+                    <h2>${currentSelectedProduct.Name}</h2>
+                    <p class="product-price">মূল্য: ৳${currentSelectedProduct.Price}</p>
+                    <button id="order-now-btn" class="order-btn">${currentSelectedProduct.Stock && currentSelectedProduct.Stock.toLowerCase() === 'out' ? 'স্টক নেই' : 'এখনই অর্ডার করুন'}</button>
+                    <div class="product-description" style="margin-top: 20px;">
+                        <h3>ডেসক্রিপশন</h3>
+                        <p>${currentSelectedProduct.Description || 'কোনো ডেসক্রিপশন দেওয়া নেই।'}</p>
+                    </div>
                 </div>
             </div>
         `;
 
-        showRelatedProducts(product.Category, product.ID);
+        showRelatedProducts(currentSelectedProduct.Category, currentSelectedProduct.ID);
         openModal(productDetailModal);
     }
 
     function showRelatedProducts(category, currentProductId) {
-        const related = allProducts.filter(p => p.Category === category && p.ID !== currentProductId).slice(0, 4);
+        const related = allProducts.filter(p => p.Category === category && p.ID !== currentProductId);
         if (related.length > 0) {
-            displayProducts(related, relatedProductsGrid);
+            // Shuffle the related products and take a few
+            const shuffled = related.sort(() => 0.5 - Math.random());
+            const displayCount = Math.min(shuffled.length, 4);
+            displayProducts(shuffled.slice(0, displayCount), relatedProductsGrid);
             document.getElementById('related-products').style.display = 'block';
         } else {
             document.getElementById('related-products').style.display = 'none';
         }
     }
 
-    function showOrderForm(productId) {
-        const product = allProducts.find(p => p.ID === productId);
-        if (!product) return;
-
-        productNameInput.value = product.Name;
-        openModal(orderModal);
-    }
-
     // --- Event Listeners Setup ---
     function setupEventListeners() {
-        // Product clicks for details or ordering
+        // Product clicks for details
         document.body.addEventListener('click', (e) => {
             const productCard = e.target.closest('.product-card');
-            const orderBtn = e.target.closest('.order-btn');
-
-            if (orderBtn) {
-                e.stopPropagation(); // Prevent card click when button is clicked
-                showOrderForm(orderBtn.dataset.id);
-            } else if (productCard) {
+            if (productCard) {
                 showProductDetail(productCard.dataset.id);
+            }
+        });
+
+        // "এখনই অর্ডার করুন" button in modal
+        document.body.addEventListener('click', (e) => {
+            if (e.target.id === 'order-now-btn') {
+                if (currentSelectedProduct) {
+                    const message = `হ্যালো Ilmora Fashion, আমি একটি পণ্য অর্ডার করতে চাই।\n\nপণ্যের নাম: ${currentSelectedProduct.Name}\nপণ্যের মূল্য: ৳${currentSelectedProduct.Price}\n\nআপনার নাম:\nআপনার সম্পূর্ণ ঠিকানা:\nআপনার মোবাইল নম্বর:`;
+                    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
+                }
             }
         });
 
@@ -147,40 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
             navbar.classList.toggle('active');
         });
 
-        // Order form submission
-        orderForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const customerName = document.getElementById('customer-name').value.trim();
-            const customerAddress = document.getElementById('customer-address').value.trim();
-            const customerMobile = document.getElementById('customer-mobile').value.trim();
-            const productName = productNameInput.value;
-
-            if (!customerName || !customerAddress || !customerMobile) {
-                alert('Please fill in all the fields.');
-                return;
-            }
-
-            const message = `
-Hello Ilmora Fashion,
-
-I would like to order the following product:
-*Product:* ${productName}
-
-My details are:
-*Name:* ${customerName}
-*Address:* ${customerAddress}
-*Mobile:* ${customerMobile}
-
-Please confirm my order.
-Thank you!
-            `;
-
-            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-
-            orderForm.reset();
-            closeModal(orderModal);
-        });
     }
 
     // --- Initial Load ---
