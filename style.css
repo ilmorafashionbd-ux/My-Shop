@@ -186,9 +186,28 @@ body.modal-open {
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: 1fr; /* Default to one product per row */
     gap: 25px;
 }
+
+@media (min-width: 576px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr); /* Two products per row for mobile */
+    }
+}
+
+@media (min-width: 992px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr); /* Three products per row for tablet */
+    }
+}
+
+@media (min-width: 1200px) {
+    .product-grid {
+        grid-template-columns: repeat(4, 1fr); /* Four products per row for desktop */
+    }
+}
+
 
 .product-card {
     background: var(--white-color);
@@ -326,6 +345,16 @@ body.modal-open {
 .product-detail-layout {
     display: flex;
     gap: 30px;
+    flex-wrap: wrap; /* Added for mobile responsiveness */
+}
+
+.product-detail-image {
+    flex: 1 1 300px;
+    max-width: 300px;
+}
+
+.product-detail-info {
+    flex: 2 1 400px;
 }
 
 .product-detail-image img {
@@ -502,11 +531,6 @@ body.modal-open {
         display: flex;
     }
 
-    .navbar a {
-        margin: 10px 0;
-        text-align: center;
-    }
-
     .menu-btn {
         display: block;
     }
@@ -544,4 +568,4 @@ body.modal-open {
     .footer-col ul li {
         justify-content: center;
     }
-    }
+}
