@@ -9,72 +9,159 @@
 </head>
 <body>
 
+    <!-- Header Section -->
     <header class="header">
         <div class="container">
             <a href="index.html" class="logo">
-                <img src="https://ilmorafashionbd-ux.github.io/My-Shop-/images/logo.png" alt="Ilmora Fashion Logo">
+                <img src="https://ilmorafashionbd-ux.github.io/My-Shop/images/logo.png" alt="Ilmora Fashion Logo">
                 <span>Ilmora Fashion</span>
             </a>
             <nav class="navbar">
-                <a href="index.html">হোম</a>
-                <a href="products.html">শপ</a>
-                <a href="contact.html">যোগাযোগ</a>
+                <a href="#home">হোম</a>
+                <a href="#products">শপ</a>
+                <a href="#footer">যোগাযোগ</a>
             </nav>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
             <div class="menu-btn">
                 <i class="fas fa-bars"></i>
             </div>
         </div>
     </header>
 
+    <!-- Main Content -->
     <main>
+        <!-- Banner Section -->
         <section id="home" class="banner">
-            <img src="https://ilmorafashionbd-ux.github.io/My-Shop-/images/banner.jpg" alt="Website Banner">
+            <img src="https://ilmorafashionbd-ux.github.io/My-Shop/images/banner.jpg" alt="Website Banner">
         </section>
 
-        <section id="products" class="products">
+        <!-- Category Section -->
+        <section class="categories">
             <div class="container">
-                <h2 class="section-title">ফিচার্ড প্রোডাক্ট</h2>
-                <div id="product-grid" class="product-grid">
-                    <!-- Products will be loaded here by JavaScript -->
+                <h2 class="section-title">পণ্যের ক্যাটাগরি</h2>
+                <div class="category-grid">
+                    <div class="category-item">
+                        <i class="fas fa-laptop"></i>
+                        <span>Electronics</span>
+                    </div>
+                    <div class="category-item">
+                        <i class="fas fa-male"></i>
+                        <span>Men’s Fashion</span>
+                    </div>
+                    <div class="category-item">
+                        <i class="fas fa-female"></i>
+                        <span>Women’s Fashion</span>
+                    </div>
+                     <div class="category-item">
+                        <i class="fas fa-book-open"></i>
+                        <span>Books & Stationery</span>
+                    </div>
+                    <div class="category-item">
+                        <i class="fas fa-couch"></i>
+                        <span>Home & Living</span>
+                    </div>
+                    <div class="category-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>Wearable Devices</span>
+                    </div>
+                    <div class="category-item">
+                        <i class="fas fa-baby"></i>
+                        <span>Kids & Baby Products</span>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- Products Section -->
+        <section id="products" class="products">
+            <div class="container">
+                <h2 class="section-title">আমাদের সকল প্রোডাক্ট</h2>
+                <div id="product-grid" class="product-grid">
+                    <!-- Products will be loaded here by JavaScript from Google Sheet -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Detail Modal -->
+        <div id="product-detail-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <div id="product-detail-content">
+                    <!-- Product details will be injected here -->
+                </div>
+                <div id="related-products" class="related-products">
+                     <h3>Related Products</h3>
+                     <div id="related-products-grid" class="product-grid">
+                         <!-- Related products will be loaded here -->
+                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Form Modal -->
+        <div id="order-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn order-close-btn">&times;</span>
+                <h2>অর্ডার কনফার্ম করুন</h2>
+                <form id="order-form">
+                    <input type="hidden" id="product-name-input">
+                    <div class="form-group">
+                        <label for="customer-name">আপনার নাম</label>
+                        <input type="text" id="customer-name" placeholder="এখানে আপনার নাম লিখুন" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-address">সম্পূর্ণ ঠিকানা</label>
+                        <input type="text" id="customer-address" placeholder="আপনার সম্পূর্ণ ঠিকানা দিন" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-mobile">মোবাইল নম্বর</label>
+                        <input type="tel" id="customer-mobile" placeholder="আপনার মোবাইল নম্বর দিন" required>
+                    </div>
+                    <button type="submit" class="submit-btn">WhatsApp এ অর্ডার করুন</button>
+                </form>
+            </div>
+        </div>
     </main>
 
-    <!-- Order Form Modal (reusable) -->
-    <div id="order-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn order-close-btn">&times;</span>
-            <h2>অর্ডার কনফার্ম করুন</h2>
-            <form id="order-form">
-                <input type="hidden" id="product-name-input">
-                <div class="form-group">
-                    <label for="customer-name">আপনার নাম</label>
-                    <input type="text" id="customer-name" placeholder="এখানে আপনার নাম লিখুন" required>
-                </div>
-                <div class="form-group">
-                    <label for="customer-address">সম্পূর্ণ ঠিকানা</label>
-                    <input type="text" id="customer-address" placeholder="আপনার সম্পূর্ণ ঠিকানা দিন" required>
-                </div>
-                <div class="form-group">
-                    <label for="customer-mobile">মোবাইল নম্বর</label>
-                    <input type="tel" id="customer-mobile" placeholder="আপনার মোবাইল নম্বর দিন" required>
-                </div>
-                <button type="submit" class="submit-btn">WhatsApp এ অর্ডার করুন</button>
-            </form>
-        </div>
-    </div>
-
+    <!-- Footer Section -->
     <footer id="footer" class="footer">
         <div class="container">
-            <!-- Footer content from your original file -->
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>গুরুত্বপূর্ণ লিংক</h4>
+                    <ul>
+                        <li><a href="#home"><i class="fas fa-link"></i> হোম পেজ</a></li>
+                        <li><a href="#products"><i class="fas fa-link"></i> শপ পেজ</a></li>
+                        <li><a href="#footer"><i class="fas fa-link"></i> যোগাযোগ পেজ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>আমাদের সাথে যোগাযোগ করুন</h4>
+                    <ul>
+                        <li><i class="fab fa-whatsapp"></i> 01778095805</li>
+                        <li><i class="fas fa-envelope"></i> ilmorafashionbd@gmail.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> ঢাকা, বাংলাদেশ</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>সোশ্যাল প্রোফাইল</h4>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/profile.php?id=61578353266944" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 Ilmora Fashion. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
 
+    <!-- PapaParse Library for CSV reading -->
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+    <!-- Your Custom JavaScript File -->
     <script src="script.js"></script>
 </body>
-</html>
+        </html>
