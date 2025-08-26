@@ -185,24 +185,22 @@ body.modal-open {
 }
 
 .product-grid {
-    /* Updated for side-by-side products on mobile */
     display: grid;
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
     gap: 25px;
 }
 
 @media (min-width: 992px) {
     .product-grid {
-        grid-template-columns: repeat(3, 1fr); /* Three products per row for tablet */
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
 @media (min-width: 1200px) {
     .product-grid {
-        grid-template-columns: repeat(4, 1fr); /* Four products per row for desktop */
+        grid-template-columns: repeat(4, 1fr);
     }
 }
-
 
 .product-card {
     background: var(--white-color);
@@ -322,41 +320,86 @@ body.modal-open {
 }
 
 .close-btn {
-    color: #aaa;
+    color: #fff;
     position: absolute;
     top: 15px;
     right: 25px;
     font-size: 30px;
     font-weight: bold;
     cursor: pointer;
+    background-color: #ff4500;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
 }
 
 .close-btn:hover,
 .close-btn:focus {
-    color: #333;
+    background-color: #e63900;
 }
 
 /* Product Detail Modal Content */
+.product-detail-content {
+    max-width: 1000px;
+    margin-top: 20px;
+}
+
 .product-detail-layout {
     display: flex;
     gap: 30px;
-    flex-wrap: wrap; /* Added for mobile responsiveness */
+    flex-wrap: wrap;
 }
 
-.product-detail-image {
-    flex: 1 1 300px;
-    max-width: 300px;
+.product-detail-images {
+    flex: 1 1 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 10px;
+}
+
+.thumbnail-images {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    width: 100%;
+    padding: 5px 0;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.thumbnail-images::-webkit-scrollbar {
+    display: none;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.thumbnail.active, .thumbnail:hover {
+    border-color: var(--primary-color);
 }
 
 .product-detail-info {
     flex: 2 1 400px;
-}
-
-.product-detail-image img {
-    width: 100%;
-    max-width: 300px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
 }
 
 .product-detail-info h2 {
@@ -431,6 +474,7 @@ body.modal-open {
     background-color: var(--secondary-color);
     padding: 50px 0 20px;
     color: var(--text-color);
+    margin-bottom: 60px;
 }
 
 .footer-grid {
@@ -508,12 +552,61 @@ body.modal-open {
     color: var(--light-text);
 }
 
+/* New: Fixed Bottom Navigation Bar */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--white-color);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0;
+    z-index: 1000;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--light-text);
+    font-size: 12px;
+    font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    color: var(--primary-color);
+}
+
+.nav-item i {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.cart-count-bottom {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    background-color: red;
+    color: var(--white-color);
+    border-radius: 50%;
+    padding: 1px 5px;
+    font-size: 10px;
+    line-height: 1;
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
     .navbar {
         display: none;
         position: absolute;
-        top: 70px; /* Adjusted to header height */
+        top: 70px;
         left: 0;
         width: 100%;
         background-color: var(--white-color);
@@ -534,7 +627,11 @@ body.modal-open {
         flex-direction: column;
     }
 
-    .product-detail-image img {
+    .product-detail-images {
+        flex: 1 1 100%;
+    }
+
+    .product-detail-images .main-image {
         max-width: 100%;
     }
 }
@@ -547,7 +644,7 @@ body.modal-open {
 
 @media (max-width: 576px) {
     .product-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr 1fr;
     }
 
     .footer-grid {
@@ -563,4 +660,4 @@ body.modal-open {
     .footer-col ul li {
         justify-content: center;
     }
-        }
+}
