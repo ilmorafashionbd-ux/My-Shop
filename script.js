@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartCountTop = document.querySelector('.cart-count');
     const cartCountBottom = document.querySelector('.cart-count-bottom');
     const categoryItems = document.querySelectorAll('.category-item');
-    const relatedProductsGrid = document.getElementById('related-products-grid');
 
     // Fetch products from Google Sheet
     const fetchProducts = async () => {
@@ -85,83 +84,117 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Show product detail - Updated for Premium Plus style
+    // Show product detail (Redesigned)
     const showProductDetail = (product) => {
         const mainImageUrl = GITHUB_IMAGE_BASE_URL + product.image_url;
         const otherImages = product.other_images ? product.other_images.split(',').map(img => GITHUB_IMAGE_BASE_URL + img.trim()) : [];
         const allImages = [mainImageUrl, ...otherImages];
         
-        // Calculate discount if any
-        const originalPrice = product.original_price || product.price;
-        const currentPrice = product.price;
-        const hasDiscount = originalPrice > currentPrice;
-        const discountPercent = hasDiscount ? Math.round(((originalPrice - currentPrice) / originalPrice) * 100) : 0;
-
-        productDetailContainer.innerHTML = `
-            <div class="product-detail-layout">
-                <div class="product-detail-images">
-                    <img id="main-product-image" class="main-image" src="${allImages[0]}" alt="${product.product_name}">
-                    <div class="thumbnail-images">
-                        ${allImages.map((img, i) => 
-                            `<img class="thumbnail ${i===0?'active':''}" src="${img}" data-img-url="${img}">`
-                        ).join('')}
+        // Generate variant options if available
+        const variants = product.variants ? product.variants.split(',').map(v => v.trim()) : ['500g', '1kg'];
+        const variantOptions = variants.map(v => 
+            `<div class="variant-option" data-value="${v}">${v}</div>`
+        ).join('');
+        
+        // Generate related products
+        const relatedProducts = allProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
+        const relatedProductsHTML = relatedProducts.map(p => {
+            const imgUrl = GITHUB_IMAGE_BASE_URL + p.image_url;
+            return `
+                <div class="product-card" data-product-id="${p.id}">
+                    <div class="product-image">
+                        <img src="${imgUrl}" alt="${p.product_name}" 
+                            onerror="this.onerror=null;this.src='https://placehold.co/400x400?text=No+Image';">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">${p.product_name}</h3>
+                        <div class="product-price">${p.price}৳</div>
                     </div>
                 </div>
+            `;
+        }).join('');
+
+        productDetailContainer.innerHTML = `
+            <div class="product-detail-premium">
+                <div class="product-detail-images">
+                    <img id="main-product-image" class="main-image" src="${allImages[0]}" alt="${product.product_name}">
+                    ${allImages.length > 1 ? `
+                        <div class="thumbnail-images">
+                            ${allImages.map((img, i) => `<img class="thumbnail ${i===0?'active':''}" src="${img}" data-img-url="${img}">`).join('')}
+                        </div>` : ''}
+                </div>
+                
                 <div class="product-detail-info">
-                    <h2>${product.product_name}</h2>
+                    <h2 class="product-title">${product.product_name}</h2>
+                    
                     <div class="product-meta">
-                        <span id="product-sku">SKU: ${product.id}</span>
-                        <span id="product-category">Category: ${product.category || 'N/A'}</span>
-                    </div>
-                    <div class="product-pricing">
-                        <span class="current-price">${currentPrice}৳</span>
-                        ${hasDiscount ? `<span class="old-price">${originalPrice}৳</span>` : ''}
-                        ${hasDiscount ? `<span class="discount-badge">${discountPercent}% OFF</span>` : ''}
-                    </div>
-                    <div class="stock-info">
-                        <i class="fas fa-check-circle"></i>
-                        <span id="stock-status">${product.stock_status === 'Out of stock' ? 'Out of Stock' : 'In Stock'}</span>
-                    </div>
-                    
-                    <div class="variant-selection">
-                        <label for="product-variant">ভ্যারিয়েন্ট:</label>
-                        <select id="product-variant">
-                            <option value="500g">500g</option>
-                            <option value="1kg">1kg</option>
-                        </select>
-                    </div>
-                    
-                    <div class="quantity-selector">
-                        <label for="product-quantity">পরিমাণ:</label>
-                        <div class="quantity-controls">
-                            <button type="button" id="decrease-quantity">-</button>
-                            <input type="number" id="product-quantity" value="1" min="1">
-                            <button type="button" id="increase-quantity">+</button>
+                        <div class="meta-item">
+                            <strong>SKU:</strong> <span>${product.sku || 'N/A'}</span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>Category:</strong> <span>${product.category || 'N/A'}</span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>Status:</strong> 
+                            <span class="${product.stock_status === 'In Stock' ? 'in-stock' : 'out-of-stock'}">
+                                ${product.stock_status || 'In Stock'}
+                            </span>
                         </div>
                     </div>
                     
-                    <div class="action-buttons">
-                        <button class="order-btn whatsapp-order" id="whatsapp-order-btn">
-                            <i class="fab fa-whatsapp"></i> হোয়াটসঅ্যাপে অর্ডার
+                    <div class="product-price-section">
+                        <div class="price-main">${product.price}৳</div>
+                        ${product.price_range ? `<div class="price-range">${product.price_range}</div>` : ''}
+                    </div>
+                    
+                    <div class="variant-selector">
+                        <label class="variant-label">Weight / Variant:</label>
+                        <div class="variant-options">
+                            ${variantOptions}
+                        </div>
+                    </div>
+                    
+                    <div class="quantity-selector">
+                        <span class="quantity-label">Quantity:</span>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-buttons">
+                        <button class="whatsapp-order-btn" id="whatsapp-order-btn">
+                            <i class="fab fa-whatsapp"></i> WhatsApp Order
                         </button>
-                        <button class="order-btn messenger-order" id="messenger-order-btn">
-                            <i class="fab fa-facebook-messenger"></i> মেসেঞ্জারে অর্ডার
+                        <button class="messenger-order-btn" id="messenger-order-btn">
+                            <i class="fab fa-facebook-messenger"></i> Messenger Order
                         </button>
                     </div>
+                    
+                    <div class="product-description">
+                        <h3 class="description-title">Product Description</h3>
+                        <div class="description-content">
+                            ${product.description || 'বিবরণ পাওয়া যায়নি।'}
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="product-description-section">
-                <h3>পণ্যের বিবরণ</h3>
-                <div id="product-description">${product.description || 'বিবরণ পাওয়া যায়নি।'}</div>
+                
+                ${relatedProducts.length > 0 ? `
+                <div class="related-products">
+                    <h3 class="related-title">Related Products</h3>
+                    <div class="related-grid">
+                        ${relatedProductsHTML}
+                    </div>
+                </div>
+                ` : ''}
             </div>
         `;
         
-        // Show modal
         productDetailModal.style.display = 'block';
         document.body.classList.add('modal-open');
-        
-        // Thumbnail click functionality
+
+        // Thumbnails functionality
         productDetailContainer.querySelectorAll('.thumbnail').forEach(thumb => {
             thumb.addEventListener('click', e => {
                 document.getElementById('main-product-image').src = e.target.dataset.imgUrl;
@@ -169,41 +202,61 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.target.classList.add('active');
             });
         });
-        
+
+        // Variant selection
+        const variantOptionsEl = productDetailContainer.querySelectorAll('.variant-option');
+        if (variantOptionsEl.length > 0) {
+            variantOptionsEl[0].classList.add('selected');
+            
+            variantOptionsEl.forEach(option => {
+                option.addEventListener('click', () => {
+                    variantOptionsEl.forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                });
+            });
+        }
+
         // Quantity controls
-        const quantityInput = document.getElementById('product-quantity');
-        document.getElementById('decrease-quantity').addEventListener('click', () => {
-            if (quantityInput.value > 1) {
-                quantityInput.value = parseInt(quantityInput.value) - 1;
-            }
-        });
-        
-        document.getElementById('increase-quantity').addEventListener('click', () => {
+        const quantityInput = productDetailContainer.querySelector('.quantity-input');
+        productDetailContainer.querySelector('.quantity-btn.plus').addEventListener('click', () => {
             quantityInput.value = parseInt(quantityInput.value) + 1;
         });
         
+        productDetailContainer.querySelector('.quantity-btn.minus').addEventListener('click', () => {
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        });
+
         // WhatsApp order button
-        document.getElementById('whatsapp-order-btn').addEventListener('click', () => {
-            const variant = document.getElementById('product-variant').value;
-            const quantity = document.getElementById('product-quantity').value;
-            
-            const message = `🛒 নতুন অর্ডার!\nপণ্যের নাম: ${product.product_name}\nভ্যারিয়েন্ট: ${variant}\nপরিমাণ: ${quantity}\nমূল্য: ${product.price}৳\nID: ${product.id}`;
-            window.open(`https://wa.me/8801778095805?text=${encodeURIComponent(message)}`, '_blank');
+        productDetailContainer.querySelector('#whatsapp-order-btn').addEventListener('click', () => {
+            const selectedVariant = productDetailContainer.querySelector('.variant-option.selected')?.dataset.value || '';
+            const quantity = quantityInput.value;
+            showOrderForm(product, selectedVariant, quantity);
         });
-        
+
         // Messenger order button
-        document.getElementById('messenger-order-btn').addEventListener('click', () => {
-            const variant = document.getElementById('product-variant').value;
-            const quantity = document.getElementById('product-quantity').value;
+        productDetailContainer.querySelector('#messenger-order-btn').addEventListener('click', () => {
+            const selectedVariant = productDetailContainer.querySelector('.variant-option.selected')?.dataset.value || '';
+            const quantity = quantityInput.value;
+            const productNameWithVariant = `${product.product_name} ${selectedVariant}`;
             
-            const message = `🛒 নতুন অর্ডার!\nপণ্যের নাম: ${product.product_name}\nভ্যারিয়েন্ট: ${variant}\nপরিমাণ: ${quantity}\nমূল্য: ${product.price}৳\nID: ${product.id}`;
-            window.open(`https://www.facebook.com/messages/t/61578353266944?text=${encodeURIComponent(message)}`, '_blank');
+            // Open Facebook Messenger with pre-filled message
+            const msg = `I want to order: ${productNameWithVariant} (Quantity: ${quantity})`;
+            window.open(`https://m.me/61578353266944?text=${encodeURIComponent(msg)}`, '_blank');
         });
-        
-        // Show related products
-        showRelatedProducts(product);
-        
-        // Update browser history
+
+        // Related products click event
+        productDetailContainer.querySelectorAll('.related-grid .product-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const productId = card.dataset.productId;
+                const relatedProduct = allProducts.find(p => p.id == productId);
+                if (relatedProduct) {
+                    showProductDetail(relatedProduct);
+                }
+            });
+        });
+
         history.pushState({ modalOpen: true }, '', '#product-' + product.id);
     };
 
@@ -235,8 +288,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Order form
-    const showOrderForm = (product) => {
-        document.getElementById('product-name-input').value = product.product_name;
+    const showOrderForm = (product, variant = '', quantity = 1) => {
+        const productNameWithVariant = `${product.product_name} ${variant}`.trim();
+        document.getElementById('product-name-input').value = productNameWithVariant;
         document.getElementById('product-id-input').value = product.id;
         orderModal.style.display = 'block';
         document.body.classList.add('modal-open');
@@ -259,23 +313,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.open(`https://wa.me/8801778095805?text=${encodeURIComponent(msg)}`, '_blank');
         orderModal.style.display = 'none';
     });
-
-    // Related products
-    const showRelatedProducts = (product) => {
-        relatedProductsGrid.innerHTML = '';
-        const related = allProducts.filter(p => p.category === product.category && p.id !== product.id).slice(0,4);
-        related.forEach(r => {
-            const img = GITHUB_IMAGE_BASE_URL + r.image_url;
-            const card = document.createElement('div');
-            card.classList.add('product-card');
-            card.innerHTML = `
-                <div class="product-image"><img src="${img}"></div>
-                <div class="product-info"><h3>${r.product_name}</h3><div class="product-price">${r.price}৳</div></div>
-            `;
-            card.addEventListener('click', () => showProductDetail(r));
-            relatedProductsGrid.appendChild(card);
-        });
-    };
 
     // Category filter
     categoryItems.forEach(item => {
