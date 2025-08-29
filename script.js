@@ -1,53 +1,63 @@
-// Open product detail
-function openProductDetail(title, originalPrice, discountPrice, desc, mainImg, galleryImgs) {
-  document.getElementById("productDetailModal").style.display = "flex";
-  document.getElementById("productTitle").innerText = title;
-  document.getElementById("originalPrice").innerText = "৳" + originalPrice;
-  document.getElementById("discountPrice").innerText = "৳" + discountPrice;
-  document.getElementById("productDesc").innerText = desc;
-  document.getElementById("mainImage").src = mainImg;
+document.addEventListener('DOMContentLoaded', () => {
+    // Replace this URL with your published Google Sheet CSV URL
+    const googleSheetCSVUrl = 'YOUR_PUBLISHED_GOOGLE_SHEET_CSV_URL_HERE';
+    const productListContainer = document.getElementById('product-list');
+    const phoneNumber = '01778095805'; // Your WhatsApp number
 
-  // Gallery
-  let thumbHTML = "";
-  galleryImgs.forEach(img => {
-    thumbHTML += `<img src="${img}" onclick="document.getElementById('mainImage').src='${img}'">`;
-  });
-  document.getElementById("thumbnailContainer").innerHTML = thumbHTML;
+    fetch(googleSheetCSVUrl)
+        .then(response => response.text())
+        .then(csvText => {
+            const products = parseCSV(csvText);
+            displayProducts(products);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            productListContainer.innerHTML = '<p>পণ্য লোড করা যায়নি। অনুগ্রহ করে পরে আবার চেষ্টা করুন।</p>';
+        });
 
-  // WhatsApp button
-  let qty = document.getElementById("qtyInput").value;
-  document.getElementById("whatsappBtn").href = 
-    `https://wa.me/8801778095805?text=I want to buy ${title}, Quantity: ${qty}`;
+    function parseCSV(csv) {
+        const lines = csv.split('\n');
+        const headers = lines[0].split(',').map(header => header.trim());
+        const products = [];
 
-  // Related Products (demo)
-  let relatedHTML = `
-    <div class="product-card"><img src="img/https://ilmorafashionbd-ux.github.io/My-Shop/images/banner.jpg"><h4>Product 3</h4><p>৳899</p></div>
-    <div class="product-card"><img src="img/product4.jpg"><h4>Product 4</h4><p>৳1099</p></div>
-  `;
-  document.getElementById("relatedProducts").innerHTML = relatedHTML;
-}
+        for (let i = 1; i < lines.length; i++) {
+            const data = lines[i].split(',');
+            if (data.length === headers.length) {
+                const product = {};
+                for (let j = 0; j < headers.length; j++) {
+                    product[headers[j]] = data[j].trim();
+                }
+                products.push(product);
+            }
+        }
+        return products;
+    }
 
-// Close modal
-function closeProductDetail() {
-  document.getElementById("productDetailModal").style.display = "none";
-}
+    function displayProducts(products) {
+        productListContainer.innerHTML = ''; // Clear existing products
+        products.forEach(product => {
+            if (product.image_url && product.name && product.price) {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
 
-// Quantity functions
-function increaseQty() {
-  let qty = document.getElementById("qtyInput");
-  qty.value = parseInt(qty.value) + 1;
-  updateWhatsAppLink();
-}
-function decreaseQty() {
-  let qty = document.getElementById("qtyInput");
-  if (qty.value > 1) qty.value = parseInt(qty.value) - 1;
-  updateWhatsAppLink();
-}
+                productCard.innerHTML = `
+                    <img src="${product.image_url}" alt="${product.name}" class="product-image">
+                    <div class="product-details">
+                        <h3>${product.name}</h3>
+                        <p class="price">৳ ${product.price}</p>
+                        <button class="order-button" onclick="sendWhatsAppOrder('${product.name}', '${product.price}')">
+                            অর্ডার করুন
+                        </button>
+                    </div>
+                `;
+                productListContainer.appendChild(productCard);
+            }
+        });
+    }
 
-// Update WhatsApp link with qty
-function updateWhatsAppLink() {
-  let title = document.getElementById("productTitle").innerText;
-  let qty = document.getElementById("qtyInput").value;
-  document.getElementById("whatsappBtn").href = 
-    `https://wa.me/8801778095805?text=I want to buy ${title}, Quantity: ${qty}`;
-}
+    window.sendWhatsAppOrder = (productName, productPrice) => {
+        const message = `হ্যালো, আমি ${productName} পণ্যটি অর্ডার করতে চাই। মূল্য: ৳ ${productPrice}`;
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+    };
+});
