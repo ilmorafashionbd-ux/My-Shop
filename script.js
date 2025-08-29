@@ -407,4 +407,124 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Variant selection
         const variantOptionsEl = productDetailContainer.querySelectorAll('.variant-option');
-  
+        if (variantOptionsEl.length > 0) {
+            variantOptionsEl[0].classList.add('selected');
+            
+            variantOptionsEl.forEach(option => {
+                option.addEventListener('click', () => {
+                    variantOptionsEl.forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                });
+            });
+        }
+
+        // Quantity controls
+        const quantityInput = productDetailContainer.querySelector('.quantity-input');
+        productDetailContainer.querySelector('.quantity-btn.plus').addEventListener('click', () => {
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        });
+        
+        productDetailContainer.querySelector('.quantity-btn.minus').addEventListener('click', () => {
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        });
+
+        // WhatsApp order button
+        productDetailContainer.querySelector('#whatsapp-order-btn').addEventListener('click', () => {
+            const selectedVariant = productDetailContainer.querySelector('.variant-option.selected')?.dataset.value || '';
+            const quantity = quantityInput.value;
+            showOrderForm(product, selectedVariant, quantity);
+        });
+
+        // Messenger order button
+        productDetailContainer.querySelector('#messenger-order-btn').addEventListener('click', () => {
+            const selectedVariant = productDetailContainer.querySelector('.variant-option.selected')?.dataset.value || '';
+            const quantity = quantityInput.value;
+            const productNameWithVariant = `${product.product_name} ${selectedVariant}`;
+            
+            // Open Facebook Messenger with pre-filled message
+            const msg = `I want to order: ${productNameWithVariant} (Quantity: ${quantity})`;
+            window.open(`https://m.me/61578353266944?text=${encodeURIComponent(msg)}`, '_blank');
+        });
+
+        // Related products click event
+        productDetailContainer.querySelectorAll('.related-grid .product-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const productId = card.dataset.productId;
+                const relatedProduct = allProducts.find(p => p.id == productId);
+                if (relatedProduct) {
+                    showProductDetailModal(relatedProduct);
+                }
+            });
+        });
+
+        history.pushState({ modalOpen: true }, '', '#product-' + product.id);
+    };
+
+    // Close product modal
+    const closeProductDetailModal = () => {
+        productDetailModal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+    };
+
+    productModalCloseBtn.addEventListener('click', closeProductDetailModal);
+
+    window.addEventListener('popstate', e => {
+        if (!(e.state && e.state.modalOpen)) closeProductDetailModal();
+    });
+
+    // Cart
+    const addToCart = (product) => {
+        const existing = cart.find(p => p.id === product.id);
+        if (existing) existing.quantity++;
+        else cart.push({...product, quantity:1});
+        updateCartCount();
+        alert(`${product.product_name} কার্টে যুক্ত হয়েছে`);
+    };
+
+    const updateCartCount = () => {
+        const total = cart.reduce((s, i) => s + i.quantity, 0);
+        cartCountTop.textContent = total;
+        cartCountBottom.textContent = total;
+    };
+
+    // Order form
+    const showOrderForm = (product, variant = '', quantity = 1) => {
+        const productNameWithVariant = `${product.product_name} ${variant}`.trim();
+        document.getElementById('product-name-input').value = productNameWithVariant;
+        document.getElementById('product-id-input').value = product.id;
+        orderModal.style.display = 'block';
+        document.body.classList.add('modal-open');
+    };
+
+    document.getElementById('order-modal-close').addEventListener('click', () => {
+        orderModal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+    });
+
+    orderForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const name = document.getElementById('customer-name').value;
+        const address = document.getElementById('customer-address').value;
+        const mobile = document.getElementById('customer-mobile').value;
+        const productName = document.getElementById('product-name-input').value;
+        const productId = document.getElementById('product-id-input').value;
+
+        const msg = `🛒 নতুন অর্ডার!\nপণ্যের নাম: ${productName}\nID: ${productId}\n\nক্রেতা: ${name}\nঠিকানা: ${address}\nমোবাইল: ${mobile}`;
+        window.open(`https://wa.me/8801778095805?text=${encodeURIComponent(msg)}`, '_blank');
+        orderModal.style.display = 'none';
+    });
+
+    // Category filter
+    categoryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const cat = item.dataset.category;
+            const filtered = cat === 'all' ? allProducts : allProducts.filter(p => p.category && p.category.toLowerCase().replace(/\s/g,'-') === cat);
+            displayProducts(filtered);
+        });
+    });
+
+    // Init
+    fetchProducts();
+});
