@@ -1,183 +1,97 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ilmora Fashion BD - Your Trusted Online Shop</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Plus Style Shop</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="header">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <img src="https://ilmorafashionbd-ux.github.io/My-Shop/images/logo.png" alt="Ilmora Fashion Logo">
-                <span>Ilmora Fashion</span>
-            </a>
-            <nav class="navbar">
-                <a href="#home">হোম</a>
-                <a href="#products">শপ</a>
-                <a href="#footer">যোগাযোগ</a>
-            </nav>
-            <div class="cart-icon">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count">0</span>
-            </div>
-            <div class="menu-btn">
-                <i class="fas fa-bars"></i>
-            </div>
-        </div>
-    </header>
+  <!-- ====== Header ====== -->
+  <header class="header">
+    <div class="logo">MyShop</div>
+    <nav class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Categories</a>
+      <a href="#">Cart</a>
+    </nav>
+    <div class="cart-icon">🛒</div>
+  </header>
 
-    <main>
-        <section id="home" class="banner">
-            <img src="https://ilmorafashionbd-ux.github.io/My-Shop/images/banner.jpg" alt="Website Banner">
-        </section>
-
-        <section class="categories">
-            <div class="container">
-                <h2 class="section-title">পণ্যের ক্যাটাগরি</h2>
-                <div class="category-grid">
-                    <div class="category-item" data-category="all">
-                        <i class="fas fa-globe"></i>
-                        <span>সকল পণ্য</span>
-                    </div>
-                    <div class="category-item" data-category="electronics">
-                        <i class="fas fa-laptop"></i>
-                        <span>ইলেকট্রনিক্স</span>
-                    </div>
-                    <div class="category-item" data-category="mens-fashion">
-                        <i class="fas fa-male"></i>
-                        <span>পুরুষদের ফ্যাশন</span>
-                    </div>
-                    <div class="category-item" data-category="womens-fashion">
-                        <i class="fas fa-female"></i>
-                        <span>মহিলাদের ফ্যাশন</span>
-                    </div>
-                     <div class="category-item" data-category="books">
-                        <i class="fas fa-book-open"></i>
-                        <span>বই ও স্টেশনারি</span>
-                    </div>
-                    <div class="category-item" data-category="home-living">
-                        <i class="fas fa-couch"></i>
-                        <span>ঘর ও সজ্জা</span>
-                    </div>
-                    <div class="category-item" data-category="wearables">
-                        <i class="fas fa-mobile-alt"></i>
-                        <span>স্মার트 গ্যাজেট</span>
-                    </div>
-                    <div class="category-item" data-category="kids-baby">
-                        <i class="fas fa-baby"></i>
-                        <span>শিশু পণ্য</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="products" class="products">
-            <div class="container">
-                <h2 class="section-title">আমাদের সকল প্রোডাক্ট</h2>
-                <div id="product-grid" class="product-grid">
-                    <!-- Products will be loaded here by script.js -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Product Detail Modal -->
-        <div id="product-detail-modal" class="modal">
-            <div class="modal-content product-detail-content">
-                <span class="close-btn" id="product-modal-close">&times;</span>
-                <div id="product-detail-container">
-                    <!-- Product details will be injected here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Order Form Modal -->
-        <div id="order-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-btn order-close-btn" id="order-modal-close">&times;</span>
-                <h2 class="form-title">অর্ডার কনফার্ম করুন</h2>
-                <form id="order-form">
-                    <input type="hidden" id="product-name-input">
-                    <input type="hidden" id="product-id-input">
-                    <div class="form-group">
-                        <label for="customer-name">আপনার নাম</label>
-                        <input type="text" id="customer-name" placeholder="আপনার নাম লিখুন" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="customer-address">সম্পূর্ণ ঠিকানা</label>
-                        <input type="text" id="customer-address" placeholder="আপনার সম্পূর্ণ ঠিকানা দিন" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="customer-mobile">মোবাইল নম্বর</label>
-                        <input type="tel" id="customer-mobile" placeholder="আপনার মোবাইল নম্বর দিন" required>
-                    </div>
-                    <button type="submit" class="submit-btn">হোয়াটসঅ্যাপে অর্ডার করুন</button>
-                </form>
-            </div>
-        </div>
-
-    </main>
-
-    <footer id="footer" class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>গুরুত্বপূর্ণ লিংক</h4>
-                    <ul>
-                        <li><a href="#home"><i class="fas fa-link"></i> হোম পেজ</a></li>
-                        <li><a href="#products"><i class="fas fa-link"></i> শপ পেজ</a></li>
-                        <li><a href="#footer"><i class="fas fa-link"></i> যোগাযোগ পেজ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>আমাদের সাথে যোগাযোগ করুন</h4>
-                    <ul>
-                        <li><i class="fab fa-whatsapp"></i> 01778095805</li>
-                        <li><i class="fas fa-envelope"></i> ilmorafashionbd@gmail.com</li>
-                        <li><i class="fas fa-map-marker-alt"></i> ঢাকা, বাংলাদেশ</li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>সোশ্যাল প্রোফাইল</h4>
-                    <div class="social-icons">
-                        <a href="https://www.facebook.com/profile.php?id=61578353266944" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Ilmora Fashion. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <div class="bottom-nav">
-        <a href="#home" class="nav-item">
-            <i class="fas fa-home"></i>
-            <span>হোম</span>
-        </a>
-        <a href="#products" class="nav-item">
-            <i class="fas fa-th-large"></i>
-            <span>ক্যাটাগরি</span>
-        </a>
-        <div class="nav-item cart-btn-bottom">
-            <i class="fas fa-shopping-cart"></i>
-            <span>কার্ট</span>
-            <span class="cart-count-bottom">0</span>
-        </div>
-        <a href="https://wa.me/8801778095805" target="_blank" class="nav-item">
-            <i class="fab fa-whatsapp"></i>
-            <span>হোয়াটসঅ্যাপ</span>
-        </a>
-        <a href="https://www.facebook.com/messages/t/61578353266944" target="_blank" class="nav-item">
-            <i class="fab fa-facebook-messenger"></i>
-            <span>মেসেঞ্জার</span>
-        </a>
+  <!-- ====== Product List ====== -->
+  <main class="product-list">
+    <div class="product-card" onclick="openProductDetail('Product 1','1200','999','Nice product description','img/product1.jpg',['img/product1.jpg','img/product1b.jpg','img/product1c.jpg'])">
+      <img src="img/product1.jpg" alt="Product 1">
+      <h3>Product 1</h3>
+      <p>৳999</p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
-    <script src="script.js"></script>
+    <div class="product-card" onclick="openProductDetail('Product 2','1500','1299','Another product description','img/product2.jpg',['img/product2.jpg','img/product2b.jpg','img/product2c.jpg'])">
+      <img src="img/product2.jpg" alt="Product 2">
+      <h3>Product 2</h3>
+      <p>৳1299</p>
+    </div>
+  </main>
+
+  <!-- ====== Product Detail Modal ====== -->
+  <div id="productDetailModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeProductDetail()">&times;</span>
+
+      <div class="modal-body">
+        <!-- Left: Images -->
+        <div class="product-images">
+          <img id="mainImage" src="" alt="Product" class="main-image">
+          <div class="thumbnails" id="thumbnailContainer"></div>
+        </div>
+
+        <!-- Right: Details -->
+        <div class="product-info">
+          <h2 id="productTitle"></h2>
+          <p class="price">
+            <span id="discountPrice"></span>
+            <span class="old-price" id="originalPrice"></span>
+          </p>
+          <p id="productDesc"></p>
+
+          <!-- Variations -->
+          <label for="variation">Choose Size:</label>
+          <select id="variation">
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+
+          <!-- Quantity -->
+          <div class="quantity">
+            <button onclick="decreaseQty()">-</button>
+            <input type="number" id="qtyInput" value="1" min="1">
+            <button onclick="increaseQty()">+</button>
+          </div>
+
+          <!-- WhatsApp Order -->
+          <a id="whatsappBtn" href="#" target="_blank" class="order-btn">📲 Order on WhatsApp</a>
+        </div>
+      </div>
+
+      <!-- Related Products -->
+      <h3 class="related-title">Related Products</h3>
+      <div class="related-products" id="relatedProducts">
+        <!-- Related product cards dynamically appear -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Bottom Navigation ====== -->
+  <div class="bottom-nav">
+    <a href="#">🏠 Home</a>
+    <a href="#">📂 Category</a>
+    <a href="#">🛒 Cart</a>
+    <a href="https://wa.me/8801778095805" target="_blank">📲 WhatsApp</a>
+    <a href="#">💬 Messenger</a>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
