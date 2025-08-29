@@ -1,97 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Plus Style Shop</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ilmora Trend And Fashion BD</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- ====== Header ====== -->
-  <header class="header">
-    <div class="logo">MyShop</div>
-    <nav class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">Categories</a>
-      <a href="#">Cart</a>
-    </nav>
-    <div class="cart-icon">🛒</div>
-  </header>
-
-  <!-- ====== Product List ====== -->
-  <main class="product-list">
-    <div class="product-card" onclick="openProductDetail('Product 1','1200','999','Nice product description','img/product1.jpg',['img/product1.jpg','img/product1b.jpg','img/product1c.jpg'])">
-      <img src="img/product1.jpg" alt="Product 1">
-      <h3>Product 1</h3>
-      <p>৳999</p>
-    </div>
-
-    <div class="product-card" onclick="openProductDetail('Product 2','1500','1299','Another product description','img/product2.jpg',['img/product2.jpg','img/product2b.jpg','img/product2c.jpg'])">
-      <img src="img/product2.jpg" alt="Product 2">
-      <h3>Product 2</h3>
-      <p>৳1299</p>
-    </div>
-  </main>
-
-  <!-- ====== Product Detail Modal ====== -->
-  <div id="productDetailModal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeProductDetail()">&times;</span>
-
-      <div class="modal-body">
-        <!-- Left: Images -->
-        <div class="product-images">
-          <img id="mainImage" src="" alt="Product" class="main-image">
-          <div class="thumbnails" id="thumbnailContainer"></div>
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">Ilmora Trend And Fashion BD</a>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="#">হোম</a></li>
+                    <li><a href="#">আমাদের সম্পর্কে</a></li>
+                    <li><a href="#">শপিং গাইড</a></li>
+                    <li><a href="#">যোগাযোগ</a></li>
+                    <li><a href="#">অর্ডার ট্র্যাক</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <a href="#"><img src="https://via.placeholder.com/24" alt="Search"></a>
+                <a href="#"><img src="https://via.placeholder.com/24" alt="Cart"></a>
+                <a href="#"><img src="https://via.placeholder.com/24" alt="User"></a>
+            </div>
         </div>
+    </header>
 
-        <!-- Right: Details -->
-        <div class="product-info">
-          <h2 id="productTitle"></h2>
-          <p class="price">
-            <span id="discountPrice"></span>
-            <span class="old-price" id="originalPrice"></span>
-          </p>
-          <p id="productDesc"></p>
+    <main class="product-grid-container">
+        <h2>আমাদের পণ্যসমূহ</h2>
+        <div id="product-list" class="product-grid">
+            </div>
+    </main>
 
-          <!-- Variations -->
-          <label for="variation">Choose Size:</label>
-          <select id="variation">
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-          </select>
-
-          <!-- Quantity -->
-          <div class="quantity">
-            <button onclick="decreaseQty()">-</button>
-            <input type="number" id="qtyInput" value="1" min="1">
-            <button onclick="increaseQty()">+</button>
-          </div>
-
-          <!-- WhatsApp Order -->
-          <a id="whatsappBtn" href="#" target="_blank" class="order-btn">📲 Order on WhatsApp</a>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section about-us">
+                <h4>আমাদের সম্পর্কে</h4>
+                <p>ইলমোরা ট্রেন্ড অ্যান্ড ফ্যাশন বিডি হলো বাংলাদেশের অন্যতম একটি বিশ্বস্ত ই-কমার্স প্ল্যাটফর্ম। আমরা সর্বোচ্চ মানের এবং নতুন ট্রেন্ডের পণ্য সরবরাহ করতে প্রতিশ্রুতিবদ্ধ।</p>
+            </div>
+            <div class="footer-section customer-service">
+                <h4>কাস্টমার সার্ভিস</h4>
+                <ul>
+                    <li><a href="#">যোগাযোগ</a></li>
+                    <li><a href="#">রিটার্ন ও রিফান্ড পলিসি</a></li>
+                    <li><a href="#">শপিং গাইড</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact-info">
+                <h4>যোগাযোগের ঠিকানা</h4>
+                <p>ফোন: +880 1778 095805</p>
+                <p>ইমেইল: info@ilmoratrend.com</p>
+                <p>ঠিকানা: ঢাকা, বাংলাদেশ</p>
+            </div>
+            <div class="footer-section social-media">
+                <h4>সামাজিক যোগাযোগ</h4>
+                <a href="#" class="social-icon"><img src="https://via.placeholder.com/32" alt="Facebook"></a>
+                <a href="#" class="social-icon"><img src="https://via.placeholder.com/32" alt="Instagram"></a>
+                <a href="#" class="social-icon"><img src="https://via.placeholder.com/32" alt="WhatsApp"></a>
+            </div>
         </div>
-      </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Ilmora Trend And Fashion BD. সর্বস্বত্ব সংরক্ষিত।</p>
+        </div>
+    </footer>
 
-      <!-- Related Products -->
-      <h3 class="related-title">Related Products</h3>
-      <div class="related-products" id="relatedProducts">
-        <!-- Related product cards dynamically appear -->
-      </div>
-    </div>
-  </div>
-
-  <!-- ====== Bottom Navigation ====== -->
-  <div class="bottom-nav">
-    <a href="#">🏠 Home</a>
-    <a href="#">📂 Category</a>
-    <a href="#">🛒 Cart</a>
-    <a href="https://wa.me/8801778095805" target="_blank">📲 WhatsApp</a>
-    <a href="#">💬 Messenger</a>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
