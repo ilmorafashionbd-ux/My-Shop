@@ -295,7 +295,7 @@ body.modal-open {
 .modal {
     display: none;
     position: fixed;
-    z-index: 2000; /* Increased z-index to appear above header and bottom nav */
+    z-index: 9999; /* Increased z-index to appear above header and bottom nav */
     left: 0;
     top: 0;
     width: 100%;
