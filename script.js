@@ -21,7 +21,7 @@ function openProductDetail(title, originalPrice, discountPrice, desc, mainImg, g
 
   // Related Products (demo)
   let relatedHTML = `
-    <div class="product-card"><img src="img/product3.jpg"><h4>Product 3</h4><p>৳899</p></div>
+    <div class="product-card"><img src="img/https://ilmorafashionbd-ux.github.io/My-Shop/images/banner.jpg"><h4>Product 3</h4><p>৳899</p></div>
     <div class="product-card"><img src="img/product4.jpg"><h4>Product 4</h4><p>৳1099</p></div>
   `;
   document.getElementById("relatedProducts").innerHTML = relatedHTML;
