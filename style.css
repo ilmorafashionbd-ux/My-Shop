@@ -660,6 +660,11 @@ body.modal-open {
     .footer-col ul li {
         justify-content: center;
     }
+
+    /* Adjust related grid for small screens */
+    .related-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 /* Premium Plus Style Product Detail */
@@ -919,14 +924,30 @@ body.modal-open {
 @media (max-width: 768px) {
     .product-detail-premium {
         flex-direction: column;
+        align-items: center; /* Center-align the content vertically in the column */
+        text-align: center; /* Center-align text */
     }
-    
+
+    .product-detail-info {
+        text-align: center;
+    }
+
+    .product-meta, .variant-options, .quantity-selector, .order-buttons {
+        justify-content: center; /* Center-align flex items */
+    }
+
     .order-buttons {
         flex-direction: column;
     }
-    
+
     .whatsapp-order-btn, .messenger-order-btn {
         width: 100%;
         justify-content: center;
+    }
+
+    .related-grid {
+        grid-template-columns: repeat(2, 1fr); /* Two products side by side */
+        justify-content: center;
+        text-align: left; /* Keep related product text left-aligned */
     }
 }
