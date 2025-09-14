@@ -110,7 +110,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Hide elements that are not needed in single product view
         document.querySelector('.banner').style.display = 'none';
         document.querySelector('.categories').style.display = 'none';
-        document.querySelector('.section-title').style.display = 'none';
+        // Check for the new class to hide only the specific title
+        const homePageTitle = document.querySelector('.section-title.homepage-title');
+        if (homePageTitle) {
+            homePageTitle.style.display = 'none';
+        }
         document.querySelector('.footer').style.marginBottom = '0';
         
         // Change page title
@@ -119,84 +123,71 @@ document.addEventListener('DOMContentLoaded', () => {
         const mainImageUrl = GITHUB_IMAGE_BASE_URL + product.image_url;
         const otherImages = product.other_images ? product.other_images.split(',').map(img => GITHUB_IMAGE_BASE_URL + img.trim()) : [];
         const allImages = [mainImageUrl, ...otherImages];
-        
-        // Generate variant options if available
-        const variants = product.variants ? product.variants.split(',').map(v => v.trim()) : ['500g', '1kg'];
-        const variantOptions = variants.map(v => 
-            `<div class="variant-option" data-value="${v}">${v}</div>`
-        ).join('');
+
+        const oldPriceHtml = product.old_price ? `<span class="old-price">${product.old_price}৳</span>` : '';
+        const sizes = product.size ? product.size.split(',').map(s => s.trim()) : [];
+        const sizeOptionsHtml = sizes.map(s => `<div class="variant-option" data-value="${s}">${s}</div>`).join('');
         
         // Replace product grid with single product view
         productGrid.innerHTML = `
-            <div class="product-detail-premium">
-                <div class="product-detail-images">
-                    <img id="main-product-image" class="main-image" src="${allImages[0]}" alt="${product.product_name}">
-                    ${allImages.length > 1 ? `
-                        <div class="thumbnail-images">
-                            ${allImages.map((img, i) => `<img class="thumbnail ${i===0?'active':''}" src="${img}" data-img-url="${img}">`).join('')}
-                        </div>` : ''}
+            <div class="single-product-container">
+                <div class="breadcrumb">
+                    <a href="index.html">হোম</a> > <a href="#products">শপ</a> > <span>${product.product_name}</span>
                 </div>
                 
-                <div class="product-detail-info">
-                    <h2 class="product-title">${product.product_name}</h2>
-                    
-                    <div class="product-meta">
-                        <div class="meta-item">
-                            <strong>SKU:</strong> <span>${product.sku || 'N/A'}</span>
-                        </div>
-                        <div class="meta-item">
-                            <strong>Category:</strong> <span>${product.category || 'N/A'}</span>
-                        </div>
-                        <div class="meta-item">
-                            <strong>Status:</strong> 
-                            <span class="${product.stock_status === 'In Stock' ? 'in-stock' : 'out-of-stock'}">
-                                ${product.stock_status || 'In Stock'}
-                            </span>
-                        </div>
+                <div class="product-main-details">
+                    <div class="product-images">
+                        <img id="main-product-image" class="main-image" src="${allImages[0]}" alt="${product.product_name}">
+                        ${allImages.length > 1 ? `
+                            <div class="thumbnail-images">
+                                ${allImages.map((img, i) => `<img class="thumbnail ${i===0?'active':''}" src="${img}" data-img-url="${img}">`).join('')}
+                            </div>` : ''}
                     </div>
                     
-                    <div class="product-price-section">
-                        <div class="price-main">${product.price}৳</div>
-                        ${product.price_range ? `<div class="price-range">${product.price_range}</div>` : ''}
-                    </div>
-                    
-                    <div class="variant-selector">
-                        <label class="variant-label">Weight / Variant:</label>
-                        <div class="variant-options">
-                            ${variantOptions}
+                    <div class="product-info-panel">
+                        <div class="product-meta">
+                            <h2 class="product-title">${product.product_name}</h2>
+                            <div class="price-section">
+                                <span class="main-price">${product.price}৳</span>
+                                ${oldPriceHtml}
+                            </div>
+                            <div class="product-code">PCODE: ${product.sku || 'N/A'}</div>
                         </div>
-                    </div>
-                    
-                    <div class="quantity-selector">
-                        <span class="quantity-label">Quantity:</span>
-                        <div class="quantity-controls">
-                            <button class="quantity-btn minus">-</button>
-                            <input type="number" class="quantity-input" value="1" min="1">
-                            <button class="quantity-btn plus">+</button>
+                        
+                        ${sizes.length > 0 ? `
+                            <div class="variant-section">
+                                <label class="variant-label">Size:</label>
+                                <div class="variant-options">
+                                    ${sizeOptionsHtml}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="quantity-section">
+                            <span class="quantity-label">Quantity:</span>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn minus">-</button>
+                                <input type="number" class="quantity-input" value="1" min="1">
+                                <button class="quantity-btn plus">+</button>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="order-buttons">
-                        <button class="whatsapp-order-btn" id="whatsapp-order-btn">
-                            <i class="fab fa-whatsapp"></i> WhatsApp Order
-                        </button>
-                        <button class="messenger-order-btn" id="messenger-order-btn">
-                            <i class="fab fa-facebook-messenger"></i> Messenger Order
-                        </button>
-                    </div>
-                    
-                    <div class="product-description">
-                        <h3 class="description-title">Product Description</h3>
-                        <div class="description-content">
-                            ${product.description || 'বিবরণ পাওয়া যায়নি।'}
+                        
+                        <div class="order-buttons">
+                            <button class="whatsapp-order-btn" id="whatsapp-order-btn">
+                                <i class="fab fa-whatsapp"></i> WhatsApp Order
+                            </button>
+                            <button class="messenger-order-btn" id="messenger-order-btn">
+                                <i class="fab fa-facebook-messenger"></i> Messenger Order
+                            </button>
                         </div>
                     </div>
                 </div>
                 
-                <div style="text-align: center; margin-top: 30px;">
-                    <a href="index.html" class="order-btn" style="display: inline-block; width: auto; padding: 10px 20px;">
-                        <i class="fas fa-arrow-left"></i> সকল পণ্য দেখুন
-                    </a>
+                <div class="product-description-section">
+                    <h3 class="section-title">Product Description</h3>
+                    <div class="description-content">
+                        ${product.description || 'বিবরণ পাওয়া যায়নি।'}
+                    </div>
                 </div>
             </div>
         `;
@@ -246,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#messenger-order-btn').addEventListener('click', () => {
             const selectedVariant = document.querySelector('.variant-option.selected')?.dataset.value || '';
             const quantity = quantityInput.value;
-            const productNameWithVariant = `${product.product_name} ${selectedVariant}`;
+            const productNameWithVariant = `${product.product_name} (${selectedVariant})`.trim();
             
             // Open Facebook Messenger with pre-filled message
             const msg = `I want to order: ${productNameWithVariant} (Quantity: ${quantity})`;
@@ -274,15 +265,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const otherImages = product.other_images ? product.other_images.split(',').map(img => GITHUB_IMAGE_BASE_URL + img.trim()) : [];
         const allImages = [mainImageUrl, ...otherImages];
         
-        // Generate variant options if available
-        const variants = product.variants ? product.variants.split(',').map(v => v.trim()) : ['500g', '1kg'];
-        const variantOptions = variants.map(v => 
-            `<div class="variant-option" data-value="${v}">${v}</div>`
-        ).join('');
+        const oldPriceHtml = product.old_price ? `<span class="old-price">${product.old_price}৳</span>` : '';
+        const sizes = product.size ? product.size.split(',').map(s => s.trim()) : [];
+        const sizeOptionsHtml = sizes.map(s => `<div class="variant-option" data-value="${s}">${s}</div>`).join('');
 
         productDetailContainer.innerHTML = `
-            <div class="product-detail-premium">
-                <div class="product-detail-images">
+            <div class="product-main-details">
+                <div class="product-images">
                     <img id="main-product-image" class="main-image" src="${allImages[0]}" alt="${product.product_name}">
                     ${allImages.length > 1 ? `
                         <div class="thumbnail-images">
@@ -290,37 +279,26 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>` : ''}
                 </div>
                 
-                <div class="product-detail-info">
-                    <h2 class="product-title">${product.product_name}</h2>
-                    
+                <div class="product-info-panel">
                     <div class="product-meta">
-                        <div class="meta-item">
-                            <strong>SKU:</strong> <span>${product.sku || 'N/A'}</span>
+                        <h2 class="product-title">${product.product_name}</h2>
+                        <div class="price-section">
+                            <span class="main-price">${product.price}৳</span>
+                            ${oldPriceHtml}
                         </div>
-                        <div class="meta-item">
-                            <strong>Category:</strong> <span>${product.category || 'N/A'}</span>
-                        </div>
-                        <div class="meta-item">
-                            <strong>Status:</strong> 
-                            <span class="${product.stock_status === 'In Stock' ? 'in-stock' : 'out-of-stock'}">
-                                ${product.stock_status || 'In Stock'}
-                            </span>
-                        </div>
+                        <div class="product-code">PCODE: ${product.sku || 'N/A'}</div>
                     </div>
                     
-                    <div class="product-price-section">
-                        <div class="price-main">${product.price}৳</div>
-                        ${product.price_range ? `<div class="price-range">${product.price_range}</div>` : ''}
-                    </div>
-                    
-                    <div class="variant-selector">
-                        <label class="variant-label">Weight / Variant:</label>
-                        <div class="variant-options">
-                            ${variantOptions}
+                    ${sizes.length > 0 ? `
+                        <div class="variant-section">
+                            <label class="variant-label">Size:</label>
+                            <div class="variant-options">
+                                ${sizeOptionsHtml}
+                            </div>
                         </div>
-                    </div>
+                    ` : ''}
                     
-                    <div class="quantity-selector">
+                    <div class="quantity-section">
                         <span class="quantity-label">Quantity:</span>
                         <div class="quantity-controls">
                             <button class="quantity-btn minus">-</button>
@@ -337,13 +315,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             <i class="fab fa-facebook-messenger"></i> Messenger Order
                         </button>
                     </div>
-                    
-                    <div class="product-description">
-                        <h3 class="description-title">Product Description</h3>
-                        <div class="description-content">
-                            ${product.description || 'বিবরণ পাওয়া যায়নি।'}
-                        </div>
-                    </div>
+                </div>
+            </div>
+            
+            <div class="product-description-section">
+                <h3 class="section-title">Product Description</h3>
+                <div class="description-content">
+                    ${product.description || 'বিবরণ পাওয়া যায়নি।'}
                 </div>
             </div>
         `;
@@ -396,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
         productDetailContainer.querySelector('#messenger-order-btn').addEventListener('click', () => {
             const selectedVariant = productDetailContainer.querySelector('.variant-option.selected')?.dataset.value || '';
             const quantity = quantityInput.value;
-            const productNameWithVariant = `${product.product_name} ${selectedVariant}`;
+            const productNameWithVariant = `${product.product_name} (${selectedVariant})`.trim();
             
             // Open Facebook Messenger with pre-filled message
             const msg = `I want to order: ${productNameWithVariant} (Quantity: ${quantity})`;
@@ -434,7 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Order form
     const showOrderForm = (product, variant = '', quantity = 1) => {
-        const productNameWithVariant = `${product.product_name} ${variant}`.trim();
+        const productNameWithVariant = `${product.product_name} (${variant})`.trim();
         document.getElementById('product-name-input').value = productNameWithVariant;
         document.getElementById('product-id-input').value = product.id;
         orderModal.style.display = 'block';
